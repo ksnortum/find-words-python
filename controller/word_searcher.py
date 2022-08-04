@@ -33,7 +33,7 @@ def remove_capitals(letters: str) -> List[str]:
 
 
 class WordSearcher(QObject):
-    finished = pyqtSignal()
+    finished = pyqtSignal(object)
     intReady = pyqtSignal(int)
 
     def __init__(self, data: InputData) -> None:
@@ -92,11 +92,9 @@ class WordSearcher(QObject):
             if len(word_copy) == 0:
                 is_bingo = len(word) - len(contains_letters) - len(self.data.get_starts_with()) \
                            - len(self.data.get_ends_with()) >= 7
-                logging.debug('value_letters = "%s"', value_letters)  # TODO remove
                 words.append(CustomWord(word, ''.join(value_letters), is_bingo, element.get_definition()))
 
-        print(*words)  # TODO testing
-        self.finished.emit()
+        self.finished.emit(words)
 
         return words
 

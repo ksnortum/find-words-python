@@ -194,14 +194,19 @@ class MainWindow(QMainWindow):
         self.thread = QThread()
         self.word_searcher.intReady.connect(self.on_count_changed)
         self.word_searcher.moveToThread(self.thread)
-        self.word_searcher.finished.connect(self.thread.quit)
-        self.word_searcher.finished.connect(lambda: self.progress_bar.setValue(100))
+        self.word_searcher.finished.connect(self.thread_finished)
         self.thread.started.connect(self.word_searcher.get_words)
         self.progress_bar.show()
         self.thread.start()
 
     def on_count_changed(self, value):
         self.progress_bar.setValue(value)
+
+    def thread_finished(self, words):
+        self.thread.quit()
+        self.progress_bar.setValue(100)
+        print("in main window...")  # TODO testing
+        print(*words)  # TODO testing
 
     def validate_input_data(self):
         data = InputDataBuilder(self.available_letters.text()) \
