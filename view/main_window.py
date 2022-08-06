@@ -1,4 +1,5 @@
 import logging
+from typing import List
 
 from PyQt5.QtCore import Qt, QThread
 from PyQt5.QtGui import QFont
@@ -15,14 +16,19 @@ from PyQt5.QtWidgets import (
     QPushButton,
     QComboBox,
     QProgressBar,
-    QMessageBox,
+    QMessageBox, QAction,
 )
+from operator import attrgetter
 
 from controller.word_searcher import WordSearcher
+from model.custom_word import CustomWord
 from model.dictionary_name import DictionaryName
 from model.input_data import InputDataBuilder
 from model.type_of_game import TypeOfGame
 from controller.validator import Validator
+from view.about_page import AboutPage
+from view.found_words import FoundWords
+from view.help_page import HelpPage
 
 AVAILABLE_LETTERS_TEXT = "Available Letters:"
 CANT_HAVE_LETTERS_TEXT = "Can't Have Letters:"
@@ -51,17 +57,44 @@ class MainWindow(QMainWindow):
     def build_gui(self):
         logging.debug("building GUI")
         self.setWindowTitle("Find Words")
-        self.setContentsMargins(20, 20, 20, 20)
+        self.setContentsMargins(15, 0, 15, 15)
         main_layout = QVBoxLayout()
         main_layout.setSpacing(10)
         main_widget = QWidget()
         main_widget.setLayout(main_layout)
         self.setCentralWidget(main_widget)
 
+        self.build_menu()
         main_layout.addWidget(self.build_title())
         main_layout.addLayout(self.build_radio_buttons())
         main_layout.addLayout(self.build_grid())
         main_layout.addLayout(self.build_buttons())
+
+    def build_menu(self):
+        menu = self.menuBar()
+        file_menu = menu.addMenu("&File")
+        clear_action = QAction("&Clear", self)
+        clear_action.triggered.connect(self.clear_all)
+        file_menu.addAction(clear_action)
+        quit_action = QAction("&Quit", self)
+        quit_action.triggered.connect(self.close)
+        file_menu.addAction(quit_action)
+
+        help_menu = menu.addMenu("&Help")
+        help_action = QAction("&Help", self)
+        help_action.triggered.connect(self.help_page_triggered)
+        help_menu.addAction(help_action)
+        about_action = QAction("&About", self)
+        about_action.triggered.connect(self.about_page_triggered)
+        help_menu.addAction(about_action)
+
+    def help_page_triggered(self):
+        help_page = HelpPage()
+        help_page.display()
+
+    def about_page_triggered(self):
+        about_page = AboutPage()  # TODO needed?
+        about_page.display()
 
     @staticmethod
     def build_title():
@@ -162,7 +195,6 @@ class MainWindow(QMainWindow):
         row += 1
         col = 1
         self.progress_bar = QProgressBar()
-        # TODO self.progress_bar.hide()
         grid.addWidget(self.progress_bar, row, col)
 
         return grid
@@ -202,11 +234,12 @@ class MainWindow(QMainWindow):
     def on_count_changed(self, value):
         self.progress_bar.setValue(value)
 
-    def thread_finished(self, words):
+    def thread_finished(self, words: List[CustomWord]) -> None:
         self.thread.quit()
         self.progress_bar.setValue(100)
-        print("in main window...")  # TODO testing
-        print(*words)  # TODO testing
+        word_sort = sorted(words, key=attrgetter('word'))
+        value_sort = sorted(word_sort, key=attrgetter('value'), reverse=True)
+        FoundWords(value_sort)
 
     def validate_input_data(self):
         data = InputDataBuilder(self.available_letters.text()) \

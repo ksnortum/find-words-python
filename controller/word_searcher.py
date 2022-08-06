@@ -18,7 +18,7 @@ def lower_case_non_escaped_letters(string: str) -> str:
     a_thru_z = re.compile("a-zA-Z")
 
     for letter in string:
-        if a_thru_z.matches(letter) and not is_escaped_character:
+        if a_thru_z.fullmatch(letter) and not is_escaped_character:
             result.append(letter.lower())
         else:
             result.append(letter)
@@ -99,7 +99,6 @@ class WordSearcher(QObject):
         return words
 
     def build_pattern(self) -> Optional[re.Pattern]:
-        logging.debug('in build_pattern()')
         pattern = None
         pattern_string = lower_case_non_escaped_letters(self.data.get_contains())
 
@@ -117,6 +116,8 @@ class WordSearcher(QObject):
                 pattern = re.compile(pattern_string)
             except re.error:
                 logging.error("Built pattern '%s' but it doesn't compile", pattern_string)
+
+        logging.debug('built pattern: %s', pattern_string)
 
         return pattern
 
