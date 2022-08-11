@@ -39,7 +39,7 @@ class CustomWord:
     def calculate_value(self) -> int:
         """Calculate value as total letter values from tiles, without wildcards or bingos"""
         total = 0
-        if self.value_word != "":  # TODO needed?
+        if self.value_word != "":
             for letter in self.value_word:
                 total += LETTER_VALUE[letter]
 
@@ -58,4 +58,13 @@ class CustomWord:
         return self.definition
 
     def __str__(self):
-        return f'{self.word}: {self.value}'
+        return f'{self.word} ({self.value_word}): {self.value}'
+
+    def __eq__(self, other):
+        return isinstance(other, CustomWord) \
+               and other.word == self.word \
+               and other.value_word == self.value_word \
+               and other.value == self.value
+
+    def __ne__(self, other):
+        return not self == other

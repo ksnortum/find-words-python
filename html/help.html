@@ -1,37 +1,75 @@
 <!DOCTYPE html>
-<!-- version 2.8.0 -->
 <html>
 <head>
-<meta charset="ISO-8859-1">
-<title>Help for ScrabbleWords</title>
+	<style>
+		body {
+			font-family: Arial, Helvetica, san-serif;
+		}
+
+		h1 {
+			background-color: #d0d0d0;
+			border-radius: 5px;
+		}
+
+		h2 {
+			background-color: #e0e0e0;
+			font-style: italic;
+			border-radius: 5px;
+		}
+
+		h3 {
+			background-color: #f0f0f0;
+			border-radius: 5px;
+		}
+
+		a {
+			text-decoration: none;
+		}
+
+		a:hover {
+			background-color: lightgray;
+		}
+
+		.emphasis {
+			font-weight: bold;
+		}
+
+		.quote {
+			font-family: Courier, fixed;
+			font-style: italic;
+		}
+
+		.button {
+			background-color: #f0f0f0;
+			font-family: Courier, fixed;
+			font-size: medium;
+			border: thin solid lightgray;
+			border-radius: 5px;
+		}
+
+		.key {
+			background-color: #f0f0f0;
+			font-family: fixed, monospace, Courier, Courier New;
+			font-size: small;
+			border: thin solid lightgray;
+			border-radius: 5px;
+		}
+	</style>
 </head>
 <body>
-
 <h1>ScrabbleWords Help</h1>
 
-<h2 id="top">Contents</h2>
-<ul>
-	<li><a href="#overview">Overview</a></li>
-	<li><a href="#typeofgame">Type of game</a></li>
-	<li><a href="#available">Available letters</a></li>
-	<li><a href="#contains">Contains letters</a></li>
-	<li><a href="#startswith">Starts with these letters</a></li>
-	<li><a href="#endswith">Ends with these letters</a></li>
-	<li><a href="#capitals">Use of capital letters</a></li>
-	<li><a href="#dictionary">Select a dictionary</a></li>
-	<li><a href="#numofletters">Number of Letters</a></li>
-</ul>
-
-<h2 id="overview">Overview</h2>
-<p><a href=#top>Top</a></p>
+<h2>Overview</h2>
 <p>
-	<span class="emphasis">ScrabbleWords</span> will help you find words to play in 
+	<span class="emphasis">Find Words</span> will help you find words to play in
 	the game of Scrabble, Wordle, or help with crossword puzzles.
 	You enter letters of the tiles you have in your hand (but see
-	<a href="#available">Available letters</a>).  Optionally, you can enter
+	<span class="quote">Available letters</span>).  Optionally, you can enter
 	a letter or letters on the board that the suggested word must contain.  You can 
-	also enter the letters the suggested word must start with and end with.  Four
-	dictionaries are supported: The Official Scrabble Players Dictionary, or OSPD;
+	also enter the letters the suggested word must start with and end with.
+</p>
+<p>
+	Four dictionaries are supported: The Official Scrabble Players Dictionary, or OSPD;
 	the Official Tournament and Club Word List, or TWL; and COLLINS (formerly called
 	SOWPODS), which is used in most countries outside the USA, and COLLINS_DEFINE,
 	which is the Collins dictionary with definitions.  The WORDS dictionary is designed
@@ -39,41 +77,38 @@
 	entries that have an apostrophe in them.
 </p>
 <p>
-	If you are familiar with <a href="https://en.wikipedia.org/wiki/Regular_expression">
-	regular expressions</a> you can use them in <a href="#contains">Contains letters</a>
-	to limit your search.  
+	If you are familiar with regular expressions you can use them in
+	<span class="quote">Contains letters</span> to limit your search.
 </p>
 <p>
 	A list of suggested words is displayed when you press <span class="button">
-	Submit</span> or press the <span class="key">Enter</span> key.  All entered data 
+	Submit</span> or press the <span class="key">Enter</span> key.  All entered data
 	is cleared when the <span class="button">Clear</span> button is pressed.
 	The application can be closed with the <span class="key">Escape</span> button.
-	The suggested words are displayed first by highest value first and then if the 
-	values are the same, by alphabetical order. 
+	The suggested words are displayed first by highest value first and then if the
+	values are the same, by alphabetical order.
 </p>
 <p>
-	<span class="emphasis">ScrabbleWords</span> has a limited ability to detect
+	<span class="emphasis">Find Words</span> has a limited ability to detect
 	whether a word is a bingo (with an extra 50 points).  Specifically, it may fail
-	to catch bingos if <a href="#contains">Contains Letters</a> contains certain
+	to catch bingos if <span class="quote">Contains Letters</span> contains certain
 	regular expressions.  This means it is possible (but not
-	likely) that a bingo word may not display first in the suggested word list. 
+	likely) that a bingo word may not display first in the suggested word list.
 </p>
 
-<h2 id="typeofgame">Type Of Game</h2>
-<p><a href=#top>Top</a></p>
+<h2>Type Of Game</h2>
 <p>
 	Select the type of game you would like words suggested for.  Selecting
 	<span class="quote">Crossword</span> disables
 	the "two dots only" check in the <span class="quote">Available Letters</span> and enables a
-	new field, <a href="#numofletters">Number of Letters</a>.  You may also want to use the WORDS
+	new field, <span class="quote">Number of Letters</span>.  You may also want to use the WORDS
 	dictionary, but any of them will work.  Selecting <span class="quote">Wordle</span> sets
 	the <span class="quote">Number of Letters</span> to 5 and changes
 	<span class="quote">Available Letters</span> to <span class="quote">Can't Have Letters</span>
 	(see below).
 </p>
 
-<h2 id="available">Available Letters/Can't Have Letters</h2>
-<p><a href=#top>Top</a></p>
+<h2>Available Letters/Can't Have Letters</h2>
 <p>
 	Enter the letters of the tiles in your hand.  If you have blank tiles, enter these as
 	dots (.).  If the type of game is <span class="quote">Wordle</span>, this becomes
@@ -81,8 +116,7 @@
 	letters are determined by removing the letters from a complete alphabet.
 </p>
 
-<h2 id="contains">Contains Letters</h2>
-<p><a href=#top>Top</a></p>
+<h2>Contains Letters</h2>
 <p>	
 	Enter letters on the board that the suggested word will intersect.  
 	Regular expressions are allowed.  For instance, if you know you want a letter "a"
@@ -93,22 +127,19 @@
 	<span class="quote">Ends With</span> field are illegal.
 </p>
 
-<h2 id="startswith">Starts With</h2>
-<p><a href=#top>Top</a></p>
+<h2>Starts With</h2>
 <p>
 	Enter the letter or letters the suggested words should start with. 
 </p>
 
-<h2 id="endswith">Ends With</h2>
-<p><a href=#top>Top</a></p>
+<h2>Ends With</h2>
 <p>
 	Enter the letter or letters the suggested words should end with. 
 </p>
 
-<h2 id="capitals">Use of Capital Letters</h2>
-<p><a href=#top>Top</a></p>
+<h2>Use of Capital Letters</h2>
 <p>
-	The <span class="quote">Contains Letters</span>, <span class="quote">Starts With</span>, 
+	The <span class="quote">Contains Letters</span>, <span class="quote">Starts With</span>,
 	and <span class="quote">Ends With</span> fields will all take capital
 	letters.  These have a special meaning, best illustrated by an example.  
 </p>
@@ -116,7 +147,7 @@
 	Say there is a letter on the board, "m", and you know you want to take a letter from
 	your hand, "a", to make a word that contains "ma".  You could remove the "a" from your
 	<span class="quote">Available Letters</span> field and enter "ma" in the <span class="quote">
-	Contains Letters</span> field.  However, you now have to remember to put back the "a" 
+	Contains Letters</span> field.  However, you now have to remember to put back the "a"
 	if you look for another list of words with different settings.
 </p>
 <p>
@@ -127,15 +158,13 @@
 	"a" from the <span class="quote">Available Letters</span> field.
 </p>
 
-<h2 id="dictionary">Dictionary</h2>
-<p><a href=#top>Top</a></p>
+<h2>Dictionary</h2>
 <p>
-	Select the dictionary to use.  The default is COLLINS.  Selecting the COLLINS_DEFINE
+	Select the dictionary to use.  The default is OSPD.  Selecting the COLLINS_DEFINE
 	dictionary will display definitions after the suggested word and score.
 </p>
 
-<h2 id="numofletters">Number of Letters</h2>
-<p><a href="#top">Top</a></p>
+<h2>Number of Letters</h2>
 <p>
 	This field holds the exact number of letters the suggested words should
 	contain.  It's value can be 0 - 20, or blank, which is the same as zero.  Zero or blank

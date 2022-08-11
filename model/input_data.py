@@ -14,7 +14,7 @@ class InputDataBuilder:
 
     def __init__(self, letters) -> None:
         """Set up all the possible data fields and their defaults"""
-        self.letters_data = letters
+        self.letters_data = letters.lower()
         self.contains_data = ""
         self.starts_with_data = ""
         self.ends_with_data = ""
@@ -87,12 +87,20 @@ class InputData:
     def is_wordle(self) -> bool:
         return self.get_builder().game_type_data == TypeOfGame.WORDLE
 
+    def is_empty(self) -> bool:
+        return not self.get_builder().letters_data \
+               and not self.get_builder().contains_data \
+               and not self.get_builder().starts_with_data \
+               and not self.get_builder().ends_with_data \
+               and not self.get_builder().number_of_letters_data
+
+
 
 # Test and usage
 if __name__ == "__main__":
-    input_data = InputDataBuilder("sea")\
-        .contains("k")\
-        .starts_with("o")\
+    input_data = InputDataBuilder("sea") \
+        .contains("k") \
+        .starts_with("o") \
         .build()
 
     print(input_data.get_letters(), input_data.get_contains(), input_data.get_starts_with())

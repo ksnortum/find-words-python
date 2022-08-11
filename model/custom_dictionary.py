@@ -14,13 +14,16 @@ class CustomDictionary:
             return self.words[self.dictionary_name]
 
         valid_words = []
-        with open("resources/" + self.dictionary_name.name.lower() + '.txt', 'r', encoding='utf-8') as f_dictionary:
+        path = 'resources/' + self.dictionary_name.name.lower() + '.txt'
+        with open(path, 'r', encoding='utf-8') as f_dictionary:
             for line in f_dictionary.readlines():
-                line = line.strip('\n')  # TODO, is this OS dependent?
+                line = line.rstrip('\n')
                 parts = line.split('\t')
-                word = parts[0]
-                definition = parts[1] if len(parts) > 1 else ""
-                valid_words.append(DictionaryElement(word, definition))
+                word = parts[0].lower()
+
+                if len(word) > 1:
+                    definition = parts[1] if len(parts) > 1 else None
+                    valid_words.append(DictionaryElement(word, definition))
 
         self.words[self.dictionary_name] = valid_words
 

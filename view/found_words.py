@@ -8,9 +8,10 @@ from view.button import ok_button
 
 
 class FoundWords(QDialog):
-    def __init__(self, words: List[CustomWord]) -> None:
+    def __init__(self, words: List[CustomWord], dictionary_definitions) -> None:
         super().__init__()
         self.words = words
+        self.dictionary_definitions = dictionary_definitions
 
         if len(words) == 0:
             self.nothing_found()
@@ -20,7 +21,7 @@ class FoundWords(QDialog):
         self.exec()
 
     def build_gui(self):
-        self.setWindowTitle("Found")
+        self.setWindowTitle("Found Words")
         main_layout = QVBoxLayout()
         self.setLayout(main_layout)
 
@@ -43,6 +44,12 @@ class FoundWords(QDialog):
             value_label.setAlignment(Qt.AlignCenter)
             value_label.setStyleSheet("background-color: white;")
             grid.addWidget(value_label, row, 1)
+
+            if self.dictionary_definitions:
+                definition_label = QLabel(word.get_definition())
+                definition_label.setStyleSheet("background-color: white;")
+                grid.addWidget(definition_label, row, 2)
+
             row += 1
 
         main_layout.addWidget(scroll)

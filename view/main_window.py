@@ -2,7 +2,7 @@ import logging
 from typing import List
 
 from PyQt5.QtCore import Qt, QThread
-from PyQt5.QtGui import QFont
+from PyQt5.QtGui import QFont, QKeySequence
 from PyQt5.QtWidgets import (
     QMainWindow,
     QVBoxLayout,
@@ -16,22 +16,29 @@ from PyQt5.QtWidgets import (
     QPushButton,
     QComboBox,
     QProgressBar,
-    QMessageBox, QAction,
+    QMessageBox,
+    QAction,
 )
 from operator import attrgetter
 
 from controller.word_searcher import WordSearcher
+from controller.validator import Validator
 from model.custom_word import CustomWord
 from model.dictionary_name import DictionaryName
 from model.input_data import InputDataBuilder
 from model.type_of_game import TypeOfGame
-from controller.validator import Validator
 from view.about_page import AboutPage
 from view.found_words import FoundWords
 from view.help_page import HelpPage
 
 AVAILABLE_LETTERS_TEXT = "Available Letters:"
+AVAILABLE_LETTERS_TOOLTIP = "Enter the tile letters you have available, or a dot for a blank tile"
 CANT_HAVE_LETTERS_TEXT = "Can't Have Letters:"
+CANT_HAVE_LETTERS_TOOLTIP = "Enter the letters that these words can't have in them"
+CONTAINS_LETTERS_TOOLTIP = "Letter(s)/regex on the board that words must contain"
+STARTS_WITH_TOOLTIP = "Words must start with these letter(s)"
+ENDS_WITH_TOOLTIP = "Words must end with these letter(s)"
+NUMBER_OF_LETTERS_TOOLTIP = "The exact number of letters in a word.  Zero or blank means unlimited"
 
 
 class MainWindow(QMainWindow):
@@ -69,32 +76,28 @@ class MainWindow(QMainWindow):
         main_layout.addLayout(self.build_radio_buttons())
         main_layout.addLayout(self.build_grid())
         main_layout.addLayout(self.build_buttons())
+        self.available_letters.setFocus()
 
     def build_menu(self):
         menu = self.menuBar()
         file_menu = menu.addMenu("&File")
         clear_action = QAction("&Clear", self)
+        clear_action.setShortcut(QKeySequence(Qt.CTRL + Qt.Key_L))
         clear_action.triggered.connect(self.clear_all)
         file_menu.addAction(clear_action)
         quit_action = QAction("&Quit", self)
+        quit_action.setShortcut(QKeySequence(Qt.CTRL + Qt.Key_Q))
         quit_action.triggered.connect(self.close)
         file_menu.addAction(quit_action)
 
         help_menu = menu.addMenu("&Help")
         help_action = QAction("&Help", self)
-        help_action.triggered.connect(self.help_page_triggered)
+        help_action.setShortcut(QKeySequence(Qt.CTRL + Qt.Key_H))
+        help_action.triggered.connect(lambda: HelpPage())
         help_menu.addAction(help_action)
         about_action = QAction("&About", self)
-        about_action.triggered.connect(self.about_page_triggered)
+        about_action.triggered.connect(lambda: AboutPage())
         help_menu.addAction(about_action)
-
-    def help_page_triggered(self):
-        help_page = HelpPage()
-        help_page.display()
-
-    def about_page_triggered(self):
-        about_page = AboutPage()  # TODO needed?
-        about_page.display()
 
     @staticmethod
     def build_title():
@@ -131,6 +134,7 @@ class MainWindow(QMainWindow):
         row, col = 0, 0
         grid.addWidget(self.available_letters_label, row, col)
         self.available_letters = QLineEdit()
+        self.available_letters.setToolTip(AVAILABLE_LETTERS_TOOLTIP)
         col = 1
         grid.addWidget(self.available_letters, row, col)
         available_letters_clear = QPushButton("Clear")
@@ -142,6 +146,7 @@ class MainWindow(QMainWindow):
         col = 0
         grid.addWidget(QLabel("Contains Letters:"), row, col)
         self.contains_letters = QLineEdit()
+        self.contains_letters.setToolTip(CONTAINS_LETTERS_TOOLTIP)
         col = 1
         grid.addWidget(self.contains_letters, row, col)
         contains_letters_clear = QPushButton("Clear")
@@ -153,6 +158,7 @@ class MainWindow(QMainWindow):
         col = 0
         grid.addWidget(QLabel("Starts with:"), row, col)
         self.starts_with = QLineEdit()
+        self.starts_with.setToolTip(STARTS_WITH_TOOLTIP)
         col = 1
         grid.addWidget(self.starts_with, row, col)
         starts_with_clear = QPushButton("Clear")
@@ -164,6 +170,7 @@ class MainWindow(QMainWindow):
         col = 0
         grid.addWidget(QLabel("Ends with:"), row, col)
         self.ends_with = QLineEdit()
+        self.ends_with.setToolTip(ENDS_WITH_TOOLTIP)
         col = 1
         grid.addWidget(self.ends_with, row, col)
         ends_with_clear = QPushButton("Clear")
@@ -176,6 +183,7 @@ class MainWindow(QMainWindow):
         grid.addWidget(QLabel("Number of Letters"), row, col)
         self.number_of_letters = QLineEdit()
         self.number_of_letters.setDisabled(True)
+        self.number_of_letters.setToolTip(NUMBER_OF_LETTERS_TOOLTIP)
         col = 1
         grid.addWidget(self.number_of_letters, row, col)
         self.number_of_letters_clear = QPushButton("Clear")
@@ -205,17 +213,18 @@ class MainWindow(QMainWindow):
 
         self.submit_button = QPushButton("Submit")
         self.submit_button.clicked.connect(self.search_for_words)
+        self.submit_button.setShortcut(QKeySequence(Qt.Key_Return))
         layout.addWidget(self.submit_button)
         self.clear_all_button = QPushButton("Clear")
         self.clear_all_button.clicked.connect(self.clear_all)
         layout.addWidget(self.clear_all_button)
         self.exit_button = QPushButton("Exit")
         self.exit_button.clicked.connect(self.close)
+        self.exit_button.setShortcut(QKeySequence(Qt.Key_Escape))
         layout.addWidget(self.exit_button)
 
         return layout
 
-    # TODO finish: get words from thread and display
     def search_for_words(self):
         data = self.validate_input_data()
 
@@ -239,7 +248,8 @@ class MainWindow(QMainWindow):
         self.progress_bar.setValue(100)
         word_sort = sorted(words, key=attrgetter('word'))
         value_sort = sorted(word_sort, key=attrgetter('value'), reverse=True)
-        FoundWords(value_sort)
+        dictionary_definitions = "DEFINE" in self.get_dictionary_name().name
+        FoundWords(value_sort, dictionary_definitions)
 
     def validate_input_data(self):
         data = InputDataBuilder(self.available_letters.text()) \
@@ -292,7 +302,7 @@ class MainWindow(QMainWindow):
         dictionary_name = DictionaryName.OSPD
 
         for name in DictionaryName:
-            if name == self.dictionary.currentText():
+            if name.name == self.dictionary.currentText():
                 dictionary_name = name
                 break
 
@@ -304,13 +314,16 @@ class MainWindow(QMainWindow):
             self.number_of_letters.setDisabled(True)
             self.number_of_letters_clear.setDisabled(True)
             self.available_letters_label.setText(AVAILABLE_LETTERS_TEXT)
+            self.available_letters.setToolTip(AVAILABLE_LETTERS_TOOLTIP)
         elif btn.text().upper() == TypeOfGame.CROSSWORD.name:
             self.number_of_letters.clear()
             self.number_of_letters.setDisabled(False)
             self.number_of_letters_clear.setDisabled(False)
             self.available_letters_label.setText(AVAILABLE_LETTERS_TEXT)
+            self.available_letters.setToolTip(AVAILABLE_LETTERS_TOOLTIP)
         elif btn.text().upper() == TypeOfGame.WORDLE.name:
             self.number_of_letters.setText("5")
             self.number_of_letters.setDisabled(False)
             self.number_of_letters_clear.setDisabled(False)
             self.available_letters_label.setText(CANT_HAVE_LETTERS_TEXT)
+            self.available_letters.setToolTip(CANT_HAVE_LETTERS_TOOLTIP)
