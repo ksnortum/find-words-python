@@ -2,7 +2,7 @@ import logging
 from typing import List
 
 from PyQt5.QtCore import Qt, QThread
-from PyQt5.QtGui import QFont, QKeySequence
+from PyQt5.QtGui import QFont, QKeySequence, QIcon
 from PyQt5.QtWidgets import (
     QMainWindow,
     QVBoxLayout,
@@ -64,6 +64,7 @@ class MainWindow(QMainWindow):
     def build_gui(self):
         logging.debug("building GUI")
         self.setWindowTitle("Find Words")
+        self.setWindowIcon(QIcon("images/letter-S.png"))
         self.setContentsMargins(15, 0, 15, 15)
         main_layout = QVBoxLayout()
         main_layout.setSpacing(10)
@@ -180,7 +181,7 @@ class MainWindow(QMainWindow):
 
         row += 1
         col = 0
-        grid.addWidget(QLabel("Number of Letters"), row, col)
+        grid.addWidget(QLabel("Number of Letters:"), row, col)
         self.number_of_letters = QLineEdit()
         self.number_of_letters.setDisabled(True)
         self.number_of_letters.setToolTip(NUMBER_OF_LETTERS_TOOLTIP)
@@ -194,7 +195,7 @@ class MainWindow(QMainWindow):
 
         row += 1
         col = 0
-        grid.addWidget(QLabel("Dictionary"), row, col)
+        grid.addWidget(QLabel("Dictionary:"), row, col)
         self.dictionary = QComboBox()
         self.dictionary.addItems([name.name for name in DictionaryName])
         col = 1
@@ -203,6 +204,7 @@ class MainWindow(QMainWindow):
         row += 1
         col = 1
         self.progress_bar = QProgressBar()
+        self.progress_bar.setDisabled(True)
         grid.addWidget(self.progress_bar, row, col)
 
         return grid
@@ -237,7 +239,7 @@ class MainWindow(QMainWindow):
         self.word_searcher.moveToThread(self.thread)
         self.word_searcher.finished.connect(self.thread_finished)
         self.thread.started.connect(self.word_searcher.get_words)
-        self.progress_bar.show()
+        self.progress_bar.setDisabled(False)
         self.thread.start()
 
     def on_count_changed(self, value):

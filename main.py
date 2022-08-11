@@ -6,7 +6,7 @@ from view.main_window import MainWindow
 
 
 def main():
-    logging.basicConfig(format='%(levelname)s %(message)s', level=logging.DEBUG)  # TODO set to WARN
+    logging.basicConfig(format='%(levelname)s %(message)s', level=logging.WARN)
     app = QApplication(sys.argv)
     window = MainWindow()
     window.show()
