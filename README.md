@@ -11,18 +11,21 @@ rewritten in Java ([scrabble-words-java](https://github.com/ksnortum/scrabble-wo
 Python 3.  My intention is that **scrabble-words-java** and this project should stay in sync (we'll see).
 
 I was never a Python programmer professionally -- I am self-taught, so there may be different (better) ways to do 
-things.  I welcome constructive criticism.  Email me at knute (at) snortum (dot) net or submit a pull request.                                              
+things.  See **Bugs, Improvements, Suggestions**.                                             
 
 
 ## Prerequisites
 
-**find-words-python** uses the [PyQt5](https://riverbankcomputing.com/software/pyqt/intro) framework.  To install:
+You will need [Python](https://www.python.org/downloads/) 3.8 or above to.  It may run on lower versions, but this is 
+not guaranteed. 
+
+You will also need the [PyQt5](https://riverbankcomputing.com/software/pyqt/intro) framework.  To install:
 
     pip install PyQt5
 
 ## Running
 
-To run, cd into `<installation-directory>/find-words-python` and in Windows:
+To run, go to a command prompt, cd into `<installation-directory>/find-words-python` and in Windows:
 
     find-word-python.bat
 
@@ -30,11 +33,19 @@ To run, cd into `<installation-directory>/find-words-python` and in Windows:
 
     ./find-words-python.sh
 
+You may also be able to launch these files directly from a file explorer if your system is set up to do so.  Windows 
+users may want to create a shortcut.
+
 ## Tests
 
 **find-words-python** comes with unit testing that you can run from the command line:
 
     cd <installation-directory>/find-words-python/tests
     python -m unittest discover -s . -t ..
+
+## Bugs, Improvements, Suggestions
+
+Suggestions or constructive criticism is welcome.  Shoot me an email at knute (at) snortum (dot) net.  Or, if you like 
+submit a pull requests.
 
 
