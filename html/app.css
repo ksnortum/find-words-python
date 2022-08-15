@@ -8,19 +8,10 @@ QMenuBar::item:selected {
     background-color: #FF007ACC;
 	color: white;
 }
-QMenuBar::item:pressed {
-    /* background: rgb(128,0,0); */
-}
-
-/* +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++ */  
-
 QMenu {
 	background-color: #f0f0f0;
 }
-QMenu::item {
-    background-color: transparent;
-}
-QMenu::item:selected { 
+QMenu::item:selected {
     background-color: #FF007ACC;
     color: white;
 }
