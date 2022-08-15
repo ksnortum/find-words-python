@@ -16,8 +16,8 @@ things.  See **Bugs, Improvements, Suggestions**.
 
 ## Prerequisites
 
-You will need [Python](https://www.python.org/downloads/) 3.8 or above to.  It may run on lower versions, but this is 
-not guaranteed. 
+You will need [Python](https://www.python.org/downloads/) 3.8 or above to execute the app.  It may run on lower 
+versions, but this is not guaranteed. 
 
 You will also need the [PyQt5](https://riverbankcomputing.com/software/pyqt/intro) framework.  To install:
 
