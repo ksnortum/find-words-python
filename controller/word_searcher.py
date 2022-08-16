@@ -156,6 +156,7 @@ class WordSearcher(QObject):
         # If the game is Wordle, then available letters means "can't have letters"
         if self.data.is_wordle():
             data_letters = [letter for letter in ALL_LETTERS if letter not in self.data.get_letters()]
+            data_letters += data_letters  # may have double letters
         else:
             data_letters = [letter for letter in self.data.get_letters()]
 
