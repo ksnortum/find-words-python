@@ -202,8 +202,10 @@ class TestWordSearcher(unittest.TestCase):
             .number_of_letters("5") \
             .build()
         expected = [
+            CustomWord("biali", "bilia", False),
             CustomWord("blain", "bilna", False),
             CustomWord("blank", "bklna", False),
+            CustomWord("llano", "lnola", False),
         ]
         searcher = WordSearcher(data)
         actual = searcher.get_words()

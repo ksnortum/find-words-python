@@ -198,6 +198,7 @@ class MainWindow(QMainWindow):
         grid.addWidget(QLabel("Dictionary:"), row, col)
         self.dictionary = QComboBox()
         self.dictionary.addItems([name.name for name in DictionaryName])
+        self.dictionary.setCurrentIndex(DictionaryName.COLLINS.value)
         col = 1
         grid.addWidget(self.dictionary, row, col)
 
@@ -301,7 +302,7 @@ class MainWindow(QMainWindow):
         return type_of_game
 
     def get_dictionary_name(self) -> DictionaryName:
-        dictionary_name = DictionaryName.OSPD
+        dictionary_name = DictionaryName.COLLINS
 
         for name in DictionaryName:
             if name.name == self.dictionary.currentText():
