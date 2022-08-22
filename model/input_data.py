@@ -95,7 +95,6 @@ class InputData:
                and not self.get_builder().number_of_letters_data
 
 
-
 # Test and usage
 if __name__ == "__main__":
     input_data = InputDataBuilder("sea") \
