@@ -50,12 +50,24 @@ class TestValidator(unittest.TestCase):
         self.assertEqual(1, len(errors))
         self.assertEqual(errors[0], Validator.TOO_FEW_LETTERS)
 
+    def test_no_available_letters_okay_in_crossword(self):
+        data = InputDataBuilder("").game_type(TypeOfGame.CROSSWORD).build()
+        validator = Validator(data)
+        errors = validator.validate()
+        self.assertEqual(0, len(errors))
+
     def test_input_too_many_letters(self):
         data = InputDataBuilder("abcdefghijklmnopqrstuvwxyz").build()
         validator = Validator(data)
         errors = validator.validate()
         self.assertEqual(1, len(errors))
         self.assertEqual(errors[0], Validator.TOO_MANY_LETTERS)
+
+    def test_no_limit_on_available_letters_if_crossword(self):
+        data = InputDataBuilder("abcdefghijklmnopqrstuvwxyz").game_type(TypeOfGame.CROSSWORD).build()
+        validator = Validator(data)
+        errors = validator.validate()
+        self.assertEqual(0, len(errors))
 
     def test_input_not_letters_or_dots(self):
         data = InputDataBuilder("abc5e").build()

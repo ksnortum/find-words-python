@@ -185,11 +185,18 @@ class TestWordSearcher(unittest.TestCase):
         actual_bingo = [word for word in actual_words if word == bingo_word]
         self.assertEqual(actual_bingo[0].get_value(), bingo_word.get_value())
 
-    def test_when_input_data_is_anm_and_number_of_words_is_3_return_list_of_two_words(self):
-        data = InputDataBuilder("anm").game_type(TypeOfGame.CROSSWORD).number_of_letters("3").build()
+    def test_crossword_return_list_of_four_words(self):
+        data = InputDataBuilder("")\
+            .game_type(TypeOfGame.CROSSWORD)\
+            .number_of_letters("3")\
+            .starts_with("m")\
+            .ends_with("n")\
+            .build()
         expected = [
-            CustomWord("man", "anm", False),
-            CustomWord("nam", "anm", False),
+            CustomWord("man", "", False),
+            CustomWord("men", "", False),
+            CustomWord("mon", "", False),
+            CustomWord("mun", "", False),
         ]
         searcher = WordSearcher(data)
         actual = searcher.get_words()

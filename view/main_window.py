@@ -59,6 +59,7 @@ class MainWindow(QMainWindow):
         self.progress_bar = None
         self.radio_group = None
         self.number_of_letters_clear = None
+        self.available_letters_clear = None
         self.build_gui()
 
     def build_gui(self):
@@ -138,10 +139,10 @@ class MainWindow(QMainWindow):
         self.available_letters.setToolTip(AVAILABLE_LETTERS_TOOLTIP)
         col = 1
         grid.addWidget(self.available_letters, row, col)
-        available_letters_clear = QPushButton("Clear")
-        available_letters_clear.clicked.connect(lambda: self.available_letters.clear())
+        self.available_letters_clear = QPushButton("Clear")
+        self.available_letters_clear.clicked.connect(lambda: self.available_letters.clear())
         col = 2
-        grid.addWidget(available_letters_clear, row, col)
+        grid.addWidget(self.available_letters_clear, row, col)
 
         row += 1
         col = 0
@@ -316,17 +317,23 @@ class MainWindow(QMainWindow):
             self.number_of_letters.clear()
             self.number_of_letters.setDisabled(True)
             self.number_of_letters_clear.setDisabled(True)
+            self.available_letters.setDisabled(False)
+            self.available_letters_clear.setDisabled(False)
             self.available_letters_label.setText(AVAILABLE_LETTERS_TEXT)
             self.available_letters.setToolTip(AVAILABLE_LETTERS_TOOLTIP)
         elif btn.text().upper() == TypeOfGame.CROSSWORD.name:
             self.number_of_letters.clear()
             self.number_of_letters.setDisabled(False)
             self.number_of_letters_clear.setDisabled(False)
-            self.available_letters_label.setText(AVAILABLE_LETTERS_TEXT)
-            self.available_letters.setToolTip(AVAILABLE_LETTERS_TOOLTIP)
+            self.available_letters.setDisabled(True)
+            self.available_letters_clear.setDisabled(True)
+            self.available_letters_label.clear()
+            self.available_letters.clear()
         elif btn.text().upper() == TypeOfGame.WORDLE.name:
             self.number_of_letters.setText("5")
             self.number_of_letters.setDisabled(False)
             self.number_of_letters_clear.setDisabled(False)
+            self.available_letters.setDisabled(False)
+            self.available_letters_clear.setDisabled(False)
             self.available_letters_label.setText(CANT_HAVE_LETTERS_TEXT)
             self.available_letters.setToolTip(CANT_HAVE_LETTERS_TOOLTIP)

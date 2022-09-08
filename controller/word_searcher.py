@@ -76,7 +76,7 @@ class WordSearcher(QObject):
             word = element.get_word()
             value_letters = []
 
-            if len(word) > len(search_letters) + len(wildcards):
+            if not self.data.is_crossword() and len(word) > len(search_letters) + len(wildcards):
                 continue
 
             if pattern is not None and not pattern.search(word):
@@ -85,6 +85,10 @@ class WordSearcher(QObject):
             if (self.data.is_crossword() or self.data.is_wordle()) \
                     and self.data.get_number_of_letters().strip() != "" \
                     and len(word) != int(self.data.get_number_of_letters()):
+                continue
+
+            if self.data.is_crossword():
+                words.append(CustomWord(word, '', False, element.get_definition()))
                 continue
 
             word_copy = word

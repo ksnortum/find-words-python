@@ -3,10 +3,6 @@ from typing import List
 
 from model.input_data import InputData
 
-LETTERS_DOT_RE = "[a-z.]*"
-ONLY_LETTERS_RE = "[a-zA-Z]*"
-DIGITS_OR_EMPTY_RE = "\\d*"
-
 
 class Validator:
     NO_MORE_THAN_TWO_DOTS = "Letters can have no more than two dots"
@@ -22,19 +18,24 @@ class Validator:
     NO_ANCHOR_AND_STARTSWITH = "Can't have \"^\" anchor and letters in \"Starts With\""
     NO_ANCHOR_AND_ENDSWITH = "Can't have \"$\" anchor and letters in \"Ends With\""
 
+    LETTERS_DOT_RE = "[a-z.]*"
+    ONLY_LETTERS_RE = "[a-zA-Z]*"
+    DIGITS_OR_EMPTY_RE = "\\d*"
+
     def __init__(self, data: InputData) -> None:
         self.data = data
-        self.letters_or_dots = re.compile(LETTERS_DOT_RE)
-        self.only_letters = re.compile(ONLY_LETTERS_RE)
-        self.digits_or_empty = re.compile(DIGITS_OR_EMPTY_RE)
+        self.letters_or_dots = re.compile(self.LETTERS_DOT_RE)
+        self.only_letters = re.compile(self.ONLY_LETTERS_RE)
+        self.digits_or_empty = re.compile(self.DIGITS_OR_EMPTY_RE)
 
     def validate(self) -> List[str]:
         errors = []
 
-        if len(self.data.get_letters()) < 1:
-            errors.append(self.TOO_FEW_LETTERS)
-        elif len(self.data.get_letters()) > 20:
-            errors.append(self.TOO_MANY_LETTERS)
+        if not self.data.is_crossword():
+            if len(self.data.get_letters()) < 1:
+                errors.append(self.TOO_FEW_LETTERS)
+            elif len(self.data.get_letters()) > 20:
+                errors.append(self.TOO_MANY_LETTERS)
 
         if not self.letters_or_dots.fullmatch(self.data.get_letters()):
             errors.append(self.LETTERS_OR_DOTS)
