@@ -58,8 +58,8 @@ class MainWindow(QMainWindow):
         self.exit_button = None
         self.progress_bar = None
         self.radio_group = None
-        self.number_of_letters_clear = None
-        self.available_letters_clear = None
+        self.number_of_letters_clear_button = None
+        self.available_letters_clear_button = None
         self.build_gui()
 
     def build_gui(self):
@@ -139,10 +139,10 @@ class MainWindow(QMainWindow):
         self.available_letters.setToolTip(AVAILABLE_LETTERS_TOOLTIP)
         col = 1
         grid.addWidget(self.available_letters, row, col)
-        self.available_letters_clear = QPushButton("Clear")
-        self.available_letters_clear.clicked.connect(lambda: self.available_letters.clear())
+        self.available_letters_clear_button = QPushButton("Clear")
+        self.available_letters_clear_button.clicked.connect(lambda: self.available_letters_clear())
         col = 2
-        grid.addWidget(self.available_letters_clear, row, col)
+        grid.addWidget(self.available_letters_clear_button, row, col)
 
         row += 1
         col = 0
@@ -151,10 +151,10 @@ class MainWindow(QMainWindow):
         self.contains_letters.setToolTip(CONTAINS_LETTERS_TOOLTIP)
         col = 1
         grid.addWidget(self.contains_letters, row, col)
-        contains_letters_clear = QPushButton("Clear")
-        contains_letters_clear.clicked.connect(lambda: self.contains_letters.clear())
+        contains_letters_clear_button = QPushButton("Clear")
+        contains_letters_clear_button.clicked.connect(lambda: self.contains_letters_clear())
         col = 2
-        grid.addWidget(contains_letters_clear, row, col)
+        grid.addWidget(contains_letters_clear_button, row, col)
 
         row += 1
         col = 0
@@ -163,10 +163,10 @@ class MainWindow(QMainWindow):
         self.starts_with.setToolTip(STARTS_WITH_TOOLTIP)
         col = 1
         grid.addWidget(self.starts_with, row, col)
-        starts_with_clear = QPushButton("Clear")
-        starts_with_clear.clicked.connect(lambda: self.starts_with.clear())
+        starts_with_clear_button = QPushButton("Clear")
+        starts_with_clear_button.clicked.connect(lambda: self.starts_with_clear())
         col = 2
-        grid.addWidget(starts_with_clear, row, col)
+        grid.addWidget(starts_with_clear_button, row, col)
 
         row += 1
         col = 0
@@ -175,10 +175,10 @@ class MainWindow(QMainWindow):
         self.ends_with.setToolTip(ENDS_WITH_TOOLTIP)
         col = 1
         grid.addWidget(self.ends_with, row, col)
-        ends_with_clear = QPushButton("Clear")
-        ends_with_clear.clicked.connect(lambda: self.ends_with.clear())
+        ends_with_clear_button = QPushButton("Clear")
+        ends_with_clear_button.clicked.connect(lambda: self.ends_with_clear())
         col = 2
-        grid.addWidget(ends_with_clear, row, col)
+        grid.addWidget(ends_with_clear_button, row, col)
 
         row += 1
         col = 0
@@ -188,11 +188,11 @@ class MainWindow(QMainWindow):
         self.number_of_letters.setToolTip(NUMBER_OF_LETTERS_TOOLTIP)
         col = 1
         grid.addWidget(self.number_of_letters, row, col)
-        self.number_of_letters_clear = QPushButton("Clear")
-        self.number_of_letters_clear.setDisabled(True)
-        self.number_of_letters_clear.clicked.connect(lambda: self.number_of_letters.clear())
+        self.number_of_letters_clear_button = QPushButton("Clear")
+        self.number_of_letters_clear_button.setDisabled(True)
+        self.number_of_letters_clear_button.clicked.connect(lambda: self.number_of_letters_clear())
         col = 2
-        grid.addWidget(self.number_of_letters_clear, row, col)
+        grid.addWidget(self.number_of_letters_clear_button, row, col)
 
         row += 1
         col = 0
@@ -277,6 +277,26 @@ class MainWindow(QMainWindow):
 
         return data
 
+    def ends_with_clear(self):
+        self.ends_with.clear()
+        self.ends_with.setFocus()
+
+    def starts_with_clear(self):
+        self.starts_with.clear()
+        self.starts_with.setFocus()
+
+    def contains_letters_clear(self):
+        self.contains_letters.clear()
+        self.contains_letters.setFocus()
+
+    def available_letters_clear(self):
+        self.available_letters.clear()
+        self.available_letters.setFocus()
+
+    def number_of_letters_clear(self):
+        self.number_of_letters.clear()
+        self.number_of_letters.setFocus()
+
     def clear_all(self):
         self.available_letters.clear()
         self.contains_letters.clear()
@@ -316,24 +336,24 @@ class MainWindow(QMainWindow):
         if btn.text().upper() == TypeOfGame.SCRABBLE.name:
             self.number_of_letters.clear()
             self.number_of_letters.setDisabled(True)
-            self.number_of_letters_clear.setDisabled(True)
+            self.number_of_letters_clear_button.setDisabled(True)
             self.available_letters.setDisabled(False)
-            self.available_letters_clear.setDisabled(False)
+            self.available_letters_clear_button.setDisabled(False)
             self.available_letters_label.setText(AVAILABLE_LETTERS_TEXT)
             self.available_letters.setToolTip(AVAILABLE_LETTERS_TOOLTIP)
         elif btn.text().upper() == TypeOfGame.CROSSWORD.name:
             self.number_of_letters.clear()
             self.number_of_letters.setDisabled(False)
-            self.number_of_letters_clear.setDisabled(False)
+            self.number_of_letters_clear_button.setDisabled(False)
             self.available_letters.setDisabled(True)
-            self.available_letters_clear.setDisabled(True)
+            self.available_letters_clear_button.setDisabled(True)
             self.available_letters_label.clear()
             self.available_letters.clear()
         elif btn.text().upper() == TypeOfGame.WORDLE.name:
             self.number_of_letters.setText("5")
             self.number_of_letters.setDisabled(False)
-            self.number_of_letters_clear.setDisabled(False)
+            self.number_of_letters_clear_button.setDisabled(False)
             self.available_letters.setDisabled(False)
-            self.available_letters_clear.setDisabled(False)
+            self.available_letters_clear_button.setDisabled(False)
             self.available_letters_label.setText(CANT_HAVE_LETTERS_TEXT)
             self.available_letters.setToolTip(CANT_HAVE_LETTERS_TOOLTIP)
