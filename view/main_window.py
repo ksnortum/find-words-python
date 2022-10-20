@@ -348,7 +348,6 @@ class MainWindow(QMainWindow):
             self.number_of_letters_clear_button.setDisabled(False)
             self.available_letters.setDisabled(True)
             self.available_letters_clear_button.setDisabled(True)
-            self.available_letters_label.clear()
             self.available_letters.clear()
         elif btn.text().upper() == TypeOfGame.WORDLE.name:
             self.number_of_letters.setText("5")
