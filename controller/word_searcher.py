@@ -87,6 +87,9 @@ class WordSearcher(QObject):
                     and len(word) != int(self.data.get_number_of_letters()):
                 continue
 
+            if self.data.get_contains().find(',') != -1 and not self.all_letters_in_word(word):
+                continue
+
             if self.data.is_crossword():
                 words.append(CustomWord(word, '', False, element.get_definition()))
                 continue
@@ -118,14 +121,17 @@ class WordSearcher(QObject):
 
     def build_pattern(self) -> Optional[re.Pattern]:
         """
-        To seep up searching, a pattern is built from the input data.  This pattern is not
+        To speed up searching, a pattern is built from the input data.  This pattern is not
         a perfect match of the word, but a way to screen words quickly.  At a minimum,
         dictionary words must match this pattern.
 
         :return: An optional pattern that the dictionary words must match
         """
         pattern = None
-        pattern_string = lower_case_non_escaped_letters(self.data.get_contains())
+        pattern_string = ""
+
+        if self.data.get_contains().find(',') == -1:
+            pattern_string = lower_case_non_escaped_letters(self.data.get_contains())
 
         if not self.data.get_starts_with().strip() == "":
             pattern_string = "^" + self.data.get_starts_with().lower() + ".*" + pattern_string
@@ -146,7 +152,7 @@ class WordSearcher(QObject):
 
         return pattern
 
-    def get_valid_data_letters(self, contains_letters) -> str:
+    def get_valid_data_letters(self, contains_letters: str) -> str:
         """
         Since there can be a lot of non-letters in the input fields this method
         strips out all characters that shouldn't be matched against a dictionary
@@ -175,15 +181,36 @@ class WordSearcher(QObject):
         return result
 
     def get_letters_from_contains(self) -> str:
-        """Return all letters in 'contains' that aren't escaped; that is, they don't have a \\\\ in front of them"""
+        """
+        Return all letters in 'contains' that aren't a comma or escaped; that is,
+        they don't have a \\\\ in front of them
+        """
         result = []
         is_escaped_character = False
         a_thru_z = re.compile("[a-zA-Z]")
 
         for letter in self.data.get_contains():
+            if letter == ',':
+                continue
+
             if a_thru_z.fullmatch(letter) and not is_escaped_character:
                 result.append(letter)
 
             is_escaped_character = letter == "\\"
 
         return ''.join(result)
+
+    def all_letters_in_word(self, word: str) -> bool:
+        """
+        Return True only if all letters in a comma-separated list are found in word
+        :param word: The word to search
+        :return: True only if all letters found in word
+        """
+        all_letters_in_word = True
+
+        for letter in self.data.get_contains().split(','):
+            if word.find(letter) == -1:
+                all_letters_in_word = False
+                break
+
+        return all_letters_in_word
