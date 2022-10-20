@@ -8,10 +8,11 @@ from view.button import ok_button
 
 
 class FoundWords(QDialog):
-    def __init__(self, words: List[CustomWord], dictionary_definitions) -> None:
+    def __init__(self, words: List[CustomWord], dictionary_definitions: bool, is_scrabble: bool) -> None:
         super().__init__()
         self.words = words
         self.dictionary_definitions = dictionary_definitions
+        self.is_scrabble = is_scrabble
 
         if len(words) == 0:
             self.nothing_found()
@@ -36,19 +37,25 @@ class FoundWords(QDialog):
         # Loop through words placing them in a grid
         row = 0
         for word in self.words:
+            col = 0
             word_label = QLabel(word.get_word())
             word_label.setStyleSheet("background-color: white;")
             word_label.setAlignment(Qt.AlignCenter)
-            grid.addWidget(word_label, row, 0)
-            value_label = QLabel(str(word.get_value()))
-            value_label.setAlignment(Qt.AlignCenter)
-            value_label.setStyleSheet("background-color: white;")
-            grid.addWidget(value_label, row, 1)
+            grid.addWidget(word_label, row, col)
+            col += 1
+
+            if self.is_scrabble:
+                value_label = QLabel(str(word.get_value()))
+                value_label.setAlignment(Qt.AlignCenter)
+                value_label.setStyleSheet("background-color: white;")
+                grid.addWidget(value_label, row, col)
+                col += 1
 
             if self.dictionary_definitions:
                 definition_label = QLabel(word.get_definition())
                 definition_label.setStyleSheet("background-color: white;")
-                grid.addWidget(definition_label, row, 2)
+                grid.addWidget(definition_label, row, col)
+                col += 1
 
             row += 1
 

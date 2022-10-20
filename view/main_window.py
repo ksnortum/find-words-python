@@ -253,7 +253,8 @@ class MainWindow(QMainWindow):
         word_sort = sorted(words, key=attrgetter('word'))
         value_sort = sorted(word_sort, key=attrgetter('value'), reverse=True)
         dictionary_definitions = "DEFINE" in self.get_dictionary_name().name
-        FoundWords(value_sort, dictionary_definitions)
+        is_scrabble = self.get_type_of_game() == TypeOfGame.SCRABBLE
+        FoundWords(value_sort, dictionary_definitions, is_scrabble)
 
     def validate_input_data(self):
         data = InputDataBuilder(self.available_letters.text()) \
