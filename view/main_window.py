@@ -80,6 +80,12 @@ class MainWindow(QMainWindow):
         main_layout.addLayout(self.build_buttons())
         self.available_letters.setFocus()
 
+        # Center app on screen
+        fg = self.frameGeometry()
+        center_point = self.screen().availableGeometry().center()
+        fg.moveCenter(center_point)
+        self.move(fg.topLeft())
+
     def build_menu(self):
         menu = self.menuBar()
         file_menu = menu.addMenu("&File")
