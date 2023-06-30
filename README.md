@@ -48,4 +48,8 @@ users may want to create a shortcut.
 Suggestions or constructive criticism is welcome.  Shoot me an email at knute (at) snortum (dot) net.  Or, if you like 
 submit a pull requests.
 
-
+## Other Find-Words Projects
+* https://github.com/ksnortum/find-words-web
+* https://github.com/ksnortum/find-words-java
+* https://github.com/ksnortum/find-words-python (this site)
+* https://github.com/ksnortum/wordle-kotlin (A Wordle game)
