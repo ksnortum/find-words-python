@@ -25,7 +25,7 @@ from controller.word_searcher import WordSearcher
 from controller.validator import Validator
 from model.custom_word import CustomWord
 from model.dictionary_name import DictionaryName
-from model.input_data import InputDataBuilder
+from model.input_data import InputDataBuilder, InputData
 from model.type_of_game import TypeOfGame
 from view.about_page import AboutPage
 from view.found_words import FoundWords
@@ -62,7 +62,7 @@ class MainWindow(QMainWindow):
         self.available_letters_clear_button = None
         self.build_gui()
 
-    def build_gui(self):
+    def build_gui(self) -> None:
         logging.debug("building GUI")
         self.setWindowTitle("Find Words")
         self.setWindowIcon(QIcon("images/letter-S.png"))
@@ -86,7 +86,7 @@ class MainWindow(QMainWindow):
         fg.moveCenter(center_point)
         self.move(fg.topLeft())
 
-    def build_menu(self):
+    def build_menu(self) -> None:
         menu = self.menuBar()
         file_menu = menu.addMenu("&File")
         clear_action = QAction("&Clear", self)
@@ -108,7 +108,7 @@ class MainWindow(QMainWindow):
         help_menu.addAction(about_action)
 
     @staticmethod
-    def build_title():
+    def build_title() -> QLabel:
         title = QLabel("Find Words")
         font = QFont()
         font.setPointSize(20)
@@ -117,7 +117,7 @@ class MainWindow(QMainWindow):
 
         return title
 
-    def build_radio_buttons(self):
+    def build_radio_buttons(self) -> QHBoxLayout:
         self.radio_group = QButtonGroup(self)
         scrabble_button = QRadioButton("Scrabble")
         scrabble_button.setChecked(True)
@@ -135,7 +135,7 @@ class MainWindow(QMainWindow):
 
         return radio_button_box
 
-    def build_grid(self):
+    def build_grid(self) -> QGridLayout:
         grid = QGridLayout()
 
         self.available_letters_label = QLabel(AVAILABLE_LETTERS_TEXT)
@@ -217,7 +217,7 @@ class MainWindow(QMainWindow):
 
         return grid
 
-    def build_buttons(self):
+    def build_buttons(self) -> QHBoxLayout:
         layout = QHBoxLayout()
         layout.setAlignment(Qt.AlignRight)
 
@@ -235,7 +235,7 @@ class MainWindow(QMainWindow):
 
         return layout
 
-    def search_for_words(self):
+    def search_for_words(self) -> None:
         data = self.validate_input_data()
 
         if data is None:
@@ -250,7 +250,7 @@ class MainWindow(QMainWindow):
         self.progress_bar.setDisabled(False)
         self.thread.start()
 
-    def on_count_changed(self, value):
+    def on_count_changed(self, value: int) -> None:
         self.progress_bar.setValue(value)
 
     def thread_finished(self, words: List[CustomWord]) -> None:
@@ -262,7 +262,7 @@ class MainWindow(QMainWindow):
         is_scrabble = self.get_type_of_game() == TypeOfGame.SCRABBLE
         FoundWords(value_sort, dictionary_definitions, is_scrabble)
 
-    def validate_input_data(self):
+    def validate_input_data(self) -> InputData | None:
         data = InputDataBuilder(self.available_letters.text()) \
                 .game_type(self.get_type_of_game()) \
                 .contains(self.contains_letters.text()) \
@@ -284,27 +284,27 @@ class MainWindow(QMainWindow):
 
         return data
 
-    def ends_with_clear(self):
+    def ends_with_clear(self) -> None:
         self.ends_with.clear()
         self.ends_with.setFocus()
 
-    def starts_with_clear(self):
+    def starts_with_clear(self) -> None:
         self.starts_with.clear()
         self.starts_with.setFocus()
 
-    def contains_letters_clear(self):
+    def contains_letters_clear(self) -> None:
         self.contains_letters.clear()
         self.contains_letters.setFocus()
 
-    def available_letters_clear(self):
+    def available_letters_clear(self) -> None:
         self.available_letters.clear()
         self.available_letters.setFocus()
 
-    def number_of_letters_clear(self):
+    def number_of_letters_clear(self) -> None:
         self.number_of_letters.clear()
         self.number_of_letters.setFocus()
 
-    def clear_all(self):
+    def clear_all(self) -> None:
         self.available_letters.clear()
         self.contains_letters.clear()
         self.starts_with.clear()
@@ -339,8 +339,8 @@ class MainWindow(QMainWindow):
 
         return dictionary_name
 
-    def radio_button_changed(self, btn):
-        if btn.text().upper() == TypeOfGame.SCRABBLE.name:
+    def radio_button_changed(self, button: QRadioButton) -> None:
+        if button.text().upper() == TypeOfGame.SCRABBLE.name:
             self.number_of_letters.clear()
             self.number_of_letters.setDisabled(True)
             self.number_of_letters_clear_button.setDisabled(True)
@@ -348,14 +348,14 @@ class MainWindow(QMainWindow):
             self.available_letters_clear_button.setDisabled(False)
             self.available_letters_label.setText(AVAILABLE_LETTERS_TEXT)
             self.available_letters.setToolTip(AVAILABLE_LETTERS_TOOLTIP)
-        elif btn.text().upper() == TypeOfGame.CROSSWORD.name:
+        elif button.text().upper() == TypeOfGame.CROSSWORD.name:
             self.number_of_letters.clear()
             self.number_of_letters.setDisabled(False)
             self.number_of_letters_clear_button.setDisabled(False)
             self.available_letters.setDisabled(True)
             self.available_letters_clear_button.setDisabled(True)
             self.available_letters.clear()
-        elif btn.text().upper() == TypeOfGame.WORDLE.name:
+        elif button.text().upper() == TypeOfGame.WORDLE.name:
             self.number_of_letters.setText("5")
             self.number_of_letters.setDisabled(False)
             self.number_of_letters_clear_button.setDisabled(False)
