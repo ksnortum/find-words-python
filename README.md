@@ -16,7 +16,7 @@ things.  See **Bugs, Improvements, Suggestions**.
 
 ## Prerequisites
 
-You will need [Python](https://www.python.org/downloads/) 3.8 or above to execute the app.  It may run on lower 
+You will need [Python](https://www.python.org/downloads/) 3.10 or above to execute the app.  It may run on lower 
 versions, but this is not guaranteed. 
 
 You will also need the [PyQt5](https://riverbankcomputing.com/software/pyqt/intro) framework.  To install:
@@ -27,11 +27,11 @@ You will also need the [PyQt5](https://riverbankcomputing.com/software/pyqt/intr
 
 To run, go to a command prompt, cd into `<installation-directory>/find-words-python` and in Windows:
 
-    find-word-python.bat
+    find-words.bat
 
 ...or in Linux:
 
-    ./find-words-python.sh
+    ./find-words.sh
 
 You may also be able to launch these files directly from a file explorer if your system is set up to do so.  Windows 
 users may want to create a shortcut.
