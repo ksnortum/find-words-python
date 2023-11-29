@@ -27,6 +27,7 @@ from model.custom_word import CustomWord
 from model.dictionary_name import DictionaryName
 from model.input_data import InputDataBuilder, InputData
 from model.type_of_game import TypeOfGame
+from model.separation_lines import QHSeparationLine
 from view.about_page import AboutPage
 from view.found_words import FoundWords
 from view.help_page import HelpPage
@@ -74,6 +75,7 @@ class MainWindow(QMainWindow):
         self.setCentralWidget(main_widget)
 
         self.build_menu()
+        main_layout.addWidget(QHSeparationLine())
         main_layout.addWidget(self.build_title())
         main_layout.addLayout(self.build_radio_buttons())
         main_layout.addLayout(self.build_grid())
