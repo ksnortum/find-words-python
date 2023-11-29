@@ -1,5 +1,3 @@
-from typing import List
-
 from PyQt5.QtCore import Qt
 from PyQt5.QtWidgets import QGridLayout, QVBoxLayout, QDialog, QLabel, QMessageBox, QScrollArea, QFrame
 
@@ -8,7 +6,10 @@ from view.button import ok_button
 
 
 class FoundWords(QDialog):
-    def __init__(self, words: List[CustomWord], dictionary_definitions: bool, is_scrabble: bool) -> None:
+    """
+    Build a dialog window to display the words found by the search.
+    """
+    def __init__(self, words: list[CustomWord], dictionary_definitions: bool, is_scrabble: bool) -> None:
         super().__init__()
         self.words = words
         self.dictionary_definitions = dictionary_definitions

@@ -5,11 +5,15 @@ from model.dictionary_name import DictionaryName
 
 
 class CustomDictionary:
+    """
+    Gets a list of dictionary words once from a text file.
+    """
     def __init__(self, dictionary_name: DictionaryName) -> None:
         self.dictionary_name = dictionary_name
         self.words = {}
 
     def get_valid_words(self) -> List[DictionaryElement]:
+        """Build a word dictionary list from a text file once on demand.  Returns a word list."""
         if self.dictionary_name in self.words.keys():
             return self.words[self.dictionary_name]
 

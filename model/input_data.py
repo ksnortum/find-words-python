@@ -6,13 +6,13 @@ class InputDataBuilder:
     """
     Builds a complex InputData object.  Possible usage:
 
-        input_data = InputDataBuilder("sea")\\\\
-            .contains("k")\\\\
-            .starts_with("o")\\\\
+        input_data = InputDataBuilder("sea")\\
+            .contains("k")\\
+            .starts_with("o")\\
             .build()
     """
 
-    def __init__(self, letters) -> None:
+    def __init__(self, letters: str) -> None:
         """Set up all the possible data fields and their defaults"""
         self.letters_data = letters.lower()
         self.contains_data = ""

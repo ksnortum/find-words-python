@@ -44,6 +44,10 @@ class TestInputData(unittest.TestCase):
         data = InputDataBuilder(self.letters).number_of_letters(number_of_letters).build()
         self.assertEqual(number_of_letters, data.get_number_of_letters())
 
+    def test_game_type_default(self):
+        data = InputDataBuilder(self.letters).build()
+        self.assertEqual(TypeOfGame.SCRABBLE, data.get_game_type())
+
     def test_game_type(self):
         data = InputDataBuilder(self.letters).game_type(TypeOfGame.CROSSWORD).build()
         self.assertEqual(TypeOfGame.CROSSWORD, data.get_game_type())

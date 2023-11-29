@@ -1,10 +1,12 @@
 import re
-from typing import List
 
 from model.input_data import InputData
 
 
 class Validator:
+    """
+    Validate the data input by the user.
+    """
     NO_MORE_THAN_TWO_DOTS = "Letters can have no more than two dots"
     TOO_FEW_LETTERS = "You must have at least one available letter"
     LETTERS_OR_DOTS = 'Letters can only be "a" thru "z" and dots'
@@ -23,12 +25,18 @@ class Validator:
     DIGITS_OR_EMPTY_RE = "\\d*"
 
     def __init__(self, data: InputData) -> None:
+        """
+        Accept InputData and compile regexes once.
+        """
         self.data = data
         self.letters_or_dots = re.compile(self.LETTERS_DOT_RE)
         self.only_letters = re.compile(self.ONLY_LETTERS_RE)
         self.digits_or_empty = re.compile(self.DIGITS_OR_EMPTY_RE)
 
-    def validate(self) -> List[str]:
+    def validate(self) -> list[str]:
+        """
+        Validate input data and return a list of error strings, if any.
+        """
         errors = []
 
         if not self.data.is_crossword():

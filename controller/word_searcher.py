@@ -1,6 +1,5 @@
 import logging
 import re
-from typing import Optional, List
 
 from PyQt5.QtCore import pyqtSignal, QObject, pyqtSlot
 
@@ -12,7 +11,7 @@ ALL_LETTERS = 'abcdefghijklmnopqrstuvwxyz'
 
 
 def lower_case_non_escaped_letters(string: str) -> str:
-    """Return all letters, lower cased, that aren't escaped; that is, they don't have a \\\\ in front of them"""
+    """Return all letters, lower cased, that aren't escaped; that is, they don't have a \\ in front of them."""
     result = []
     is_escaped_character = False
     a_thru_z = re.compile("[a-zA-Z]")
@@ -29,8 +28,8 @@ def lower_case_non_escaped_letters(string: str) -> str:
     return ''.join(result)
 
 
-def remove_capitals(word: str, data_letters: List[str]) -> List[str]:
-    """Remove all capital letters in word from data_letters"""
+def remove_capitals(word: str, data_letters: list[str]) -> list[str]:
+    """Remove all capital letters in word from data_letters."""
     for letter in word:
         if letter.isupper():
             data_letters.remove(letter.lower())
@@ -39,7 +38,7 @@ def remove_capitals(word: str, data_letters: List[str]) -> List[str]:
 
 
 class WordSearcher(QObject):
-    """Find all words that match the input data"""
+    """Find all words that match the input data."""
 
     # Emits a signal that this process is finished, and returns a list
     finished = pyqtSignal(list)
@@ -52,7 +51,7 @@ class WordSearcher(QObject):
         self.data = data
 
     @pyqtSlot()
-    def get_words(self) -> Optional[List[CustomWord]]:
+    def get_words(self) -> list[CustomWord] | None:
         """Return a list of dictionary words (to the caller) that match the input data."""
         logging.debug('in get_words()')
         dictionary = CustomDictionary(self.data.get_dictionary_name())
@@ -119,13 +118,13 @@ class WordSearcher(QObject):
 
         return words  # for testing only
 
-    def build_pattern(self) -> Optional[re.Pattern]:
+    def build_pattern(self) -> re.Pattern | None:
         """
         To speed up searching, a pattern is built from the input data.  This pattern is not
         a perfect match of the word, but a way to screen words quickly.  At a minimum,
         dictionary words must match this pattern.
 
-        :return: An optional pattern that the dictionary words must match
+        Returns a pattern that the dictionary words must match or None.
         """
         pattern = None
         pattern_string = ""
@@ -158,9 +157,9 @@ class WordSearcher(QObject):
         strips out all characters that shouldn't be matched against a dictionary
         word.  Capitals are removed from some fields because they are a way of saying,
         "Take this  letter from available letters when you do the match, then put it
-        back afterwards."  See html/help.html.
+        back afterward."  See html/help.html.
 
-        :return: A string of letters that the dictionary word should be matched against
+        Returns a string of letters that the dictionary word should be matched against
         """
 
         # If the game is Wordle, then available letters means "can't have letters"
@@ -183,7 +182,7 @@ class WordSearcher(QObject):
     def get_letters_from_contains(self) -> str:
         """
         Return all letters in 'contains' that aren't a comma or escaped; that is,
-        they don't have a \\\\ in front of them
+        they don't have a \\ in front of them
         """
         result = []
         is_escaped_character = False
@@ -202,9 +201,7 @@ class WordSearcher(QObject):
 
     def all_letters_in_word(self, word: str) -> bool:
         """
-        Return True only if all letters in a comma-separated list are found in word
-        :param word: The word to search
-        :return: True only if all letters found in word
+        Return True only if all letters in a comma-separated list are found in word.
         """
         all_letters_in_word = True
 

@@ -1,6 +1,3 @@
-from typing import List, Any
-
-
 def get_string_from_file(file_name: str) -> str:
     """Given a text file "file_name", return a string of all lines in "file_name" concatenated."""
     with open(file_name, 'r', encoding='utf-8') as f:
@@ -9,7 +6,7 @@ def get_string_from_file(file_name: str) -> str:
     return ''.join(lines)
 
 
-def are_lists_equal(list1: List[Any], list2: List[Any]) -> bool:
+def are_lists_equal(list1: list, list2: list) -> bool:
     """Given two lists of equal length, return true if all elements are equal, otherwise return false."""
     if len(list1) != len(list2):
         print(f"Lists are not the same length, len(list1) = {len(list1)}, len(list2) = {len(list2)}")

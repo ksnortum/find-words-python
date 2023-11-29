@@ -27,7 +27,7 @@ from model.custom_word import CustomWord
 from model.dictionary_name import DictionaryName
 from model.input_data import InputDataBuilder, InputData
 from model.type_of_game import TypeOfGame
-from model.separation_lines import QHSeparationLine
+from view.separation_lines import QHSeparationLine
 from view.about_page import AboutPage
 from view.found_words import FoundWords
 from view.help_page import HelpPage
@@ -43,6 +43,11 @@ NUMBER_OF_LETTERS_TOOLTIP = "The exact number of letters in a word.  Zero or bla
 
 
 class MainWindow(QMainWindow):
+    """
+    Create the main window for the application.  Entered data is validated by Validator,
+    then passed to WordSearcher to search for words that fit the data.  These are displayed
+    in the FoundWords dialog.
+    """
     def __init__(self):
         super().__init__()
         self.word_searcher = None
@@ -138,6 +143,7 @@ class MainWindow(QMainWindow):
         return radio_button_box
 
     def build_grid(self) -> QGridLayout:
+        """Builds a grid with the fields needed for data entry."""
         grid = QGridLayout()
 
         self.available_letters_label = QLabel(AVAILABLE_LETTERS_TEXT)
@@ -238,6 +244,7 @@ class MainWindow(QMainWindow):
         return layout
 
     def search_for_words(self) -> None:
+        """If input data validates, start a thread in the background to search for words that fit the criteria."""
         data = self.validate_input_data()
 
         if data is None:
@@ -256,6 +263,7 @@ class MainWindow(QMainWindow):
         self.progress_bar.setValue(value)
 
     def thread_finished(self, words: List[CustomWord]) -> None:
+        """Display list of words after the search in the background is over."""
         self.thread.quit()
         self.progress_bar.setValue(100)
         word_sort = sorted(words, key=attrgetter('word'))
@@ -265,6 +273,9 @@ class MainWindow(QMainWindow):
         FoundWords(value_sort, dictionary_definitions, is_scrabble)
 
     def validate_input_data(self) -> InputData | None:
+        """
+        Validate the data input by the user.  Returns None if data does not validate, otherwise it returns the data.
+        """
         data = InputDataBuilder(self.available_letters.text()) \
                 .game_type(self.get_type_of_game()) \
                 .contains(self.contains_letters.text()) \
@@ -318,6 +329,7 @@ class MainWindow(QMainWindow):
         self.available_letters.setFocus()
 
     def get_type_of_game(self) -> TypeOfGame:
+        """The type of game is determined and returned by checking which radio button is selected."""
         type_of_game = TypeOfGame.SCRABBLE
         selected = [button.text() for button in self.radio_group.buttons() if button.isChecked()]
 
@@ -332,6 +344,7 @@ class MainWindow(QMainWindow):
         return type_of_game
 
     def get_dictionary_name(self) -> DictionaryName:
+        """Return the dictionary name by checking the current text of the dictionary pull-down menu."""
         dictionary_name = DictionaryName.COLLINS
 
         for name in DictionaryName:
@@ -342,6 +355,7 @@ class MainWindow(QMainWindow):
         return dictionary_name
 
     def radio_button_changed(self, button: QRadioButton) -> None:
+        """Actions to be taken when the radio button changes."""
         if button.text().upper() == TypeOfGame.SCRABBLE.name:
             self.number_of_letters.clear()
             self.number_of_letters.setDisabled(True)

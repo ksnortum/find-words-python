@@ -1,35 +1,34 @@
-LETTER_VALUE = {
-    'a': 1,
-    'b': 3,
-    'c': 3,
-    'd': 2,
-    'e': 1,
-    'f': 4,
-    'g': 2,
-    'h': 4,
-    'i': 1,
-    'j': 8,
-    'k': 5,
-    'l': 1,
-    'm': 3,
-    'n': 1,
-    'o': 1,
-    'p': 3,
-    'q': 10,
-    'r': 1,
-    's': 1,
-    't': 1,
-    'u': 1,
-    'v': 4,
-    'w': 4,
-    'x': 8,
-    'y': 4,
-    'z': 10
-}
-
-
 class CustomWord:
-    """Holds a Scrabble word and its value, with a possible definition"""
+    """Holds a word and its value, with a possible definition"""
+    LETTER_VALUE = {
+        'a': 1,
+        'b': 3,
+        'c': 3,
+        'd': 2,
+        'e': 1,
+        'f': 4,
+        'g': 2,
+        'h': 4,
+        'i': 1,
+        'j': 8,
+        'k': 5,
+        'l': 1,
+        'm': 3,
+        'n': 1,
+        'o': 1,
+        'p': 3,
+        'q': 10,
+        'r': 1,
+        's': 1,
+        't': 1,
+        'u': 1,
+        'v': 4,
+        'w': 4,
+        'x': 8,
+        'y': 4,
+        'z': 10
+    }
+
     def __init__(self, word: str, value_word: str, is_bingo: bool, definition: str = ""):
         self.word = word.lower()
         self.value_word = value_word.lower()
@@ -41,7 +40,7 @@ class CustomWord:
         total = 0
         if self.value_word != "":
             for letter in self.value_word:
-                total += LETTER_VALUE[letter]
+                total += self.LETTER_VALUE[letter]
 
         return total
 

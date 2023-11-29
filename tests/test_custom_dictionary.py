@@ -20,13 +20,11 @@ class TestCustomDictionary(unittest.TestCase):
 
     def test_dictionary(self):
         dictionary = CustomDictionary(DictionaryName.TWL)
-        valid_words = dictionary.get_valid_words()
-        self.assertListEqual(self.test_words, valid_words)
+        self.assertListEqual(self.test_words, dictionary.get_valid_words())
 
     def test_dictionary_with_definitions(self):
         dictionary = CustomDictionary(DictionaryName.COLLINS_DEFINE)
-        valid_words = dictionary.get_valid_words()
-        self.assertListEqual(self.test_words_with_definitions, valid_words)
+        self.assertListEqual(self.test_words_with_definitions, dictionary.get_valid_words())
 
 
 if __name__ == '__main__':

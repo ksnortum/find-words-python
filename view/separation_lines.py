@@ -2,11 +2,8 @@ from PyQt5 import QtWidgets
 
 
 class QHSeparationLine(QtWidgets.QFrame):
-    """
-    a horizontal separation line\n
-    """
-
-    def __init__(self, height: int=2):
+    """A horizontal separation line"""
+    def __init__(self, height: int = 2):
         super().__init__()
         self.setMinimumWidth(1)
         self.setFixedHeight(max(height, 2))
@@ -17,11 +14,8 @@ class QHSeparationLine(QtWidgets.QFrame):
 
 
 class QVSeparationLine(QtWidgets.QFrame):
-    """
-    a vertical separation line\n
-    """
-
-    def __init__(self, width: int=2):
+    """A vertical separation line."""
+    def __init__(self, width: int = 2):
         super().__init__()
         self.setFixedWidth(max(width, 2))
         self.setMinimumHeight(1)

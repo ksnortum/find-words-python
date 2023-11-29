@@ -96,7 +96,7 @@ class TestWordSearcher(unittest.TestCase):
         actual = searcher.get_words()
         self.assertListEqual(actual, expected)
 
-    def test_when_input_data_is_as_and_startswith_is_M_return_list_of_two_words(self):
+    def test_when_input_data_is_anm_and_startswith_is_M_return_list_of_two_words(self):
         data = InputDataBuilder("anm").starts_with("M").build()
         expected = [
             CustomWord("ma", "am", False),
@@ -106,7 +106,7 @@ class TestWordSearcher(unittest.TestCase):
         actual = searcher.get_words()
         self.assertListEqual(actual, expected)
 
-    def test_when_input_data_is_as_and_endswith_is_M_return_list_of_two_words(self):
+    def test_when_input_data_is_anm_and_endswith_is_M_return_list_of_two_words(self):
         data = InputDataBuilder("anm").ends_with("M").build()
         expected = [
             CustomWord("am", "am", False),
@@ -202,7 +202,7 @@ class TestWordSearcher(unittest.TestCase):
         actual = searcher.get_words()
         self.assertListEqual(actual, expected)
 
-    def test_when_wordle_test_1_return_list_of_two_words(self):
+    def test_when_wordle_test_1_return_list_of_four_words(self):
         data = InputDataBuilder("qwertyasdfghcpvzjm") \
             .game_type(TypeOfGame.WORDLE) \
             .contains("^..a") \

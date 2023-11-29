@@ -1,4 +1,5 @@
 class DictionaryElement:
+    """One element in a dictionary list of words.  Pass in word and possible definition."""
     def __init__(self, word: str, definition: str = None) -> None:
         self.word = word
         self.definition = definition

@@ -3,6 +3,7 @@ from PyQt5.QtWidgets import QHBoxLayout, QPushButton
 
 
 def ok_button(self) -> QHBoxLayout:
+    """Return an OK button in an HBox"""
     button_layout = QHBoxLayout()
     button_layout.setAlignment(Qt.AlignRight)
     button = QPushButton("OK")
