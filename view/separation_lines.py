@@ -1,4 +1,4 @@
-from PyQt5 import QtWidgets
+from PyQt6 import QtWidgets
 
 
 class QHSeparationLine(QtWidgets.QFrame):
@@ -7,9 +7,9 @@ class QHSeparationLine(QtWidgets.QFrame):
         super().__init__()
         self.setMinimumWidth(1)
         self.setFixedHeight(max(height, 2))
-        self.setFrameShape(QtWidgets.QFrame.HLine)
-        self.setFrameShadow(QtWidgets.QFrame.Sunken)
-        self.setSizePolicy(QtWidgets.QSizePolicy.Preferred, QtWidgets.QSizePolicy.Minimum)
+        self.setFrameShape(QtWidgets.QFrame.Shape.HLine)
+        self.setFrameShadow(QtWidgets.QFrame.Shadow.Sunken)
+        self.setSizePolicy(QtWidgets.QSizePolicy.Policy.Preferred, QtWidgets.QSizePolicy.Policy.Minimum)
         return
 
 
@@ -19,7 +19,7 @@ class QVSeparationLine(QtWidgets.QFrame):
         super().__init__()
         self.setFixedWidth(max(width, 2))
         self.setMinimumHeight(1)
-        self.setFrameShape(QtWidgets.QFrame.VLine)
-        self.setFrameShadow(QtWidgets.QFrame.Sunken)
-        self.setSizePolicy(QtWidgets.QSizePolicy.Minimum, QtWidgets.QSizePolicy.Preferred)
+        self.setFrameShape(QtWidgets.QFrame.Shape.VLine)
+        self.setFrameShadow(QtWidgets.QFrame.Shadow.Sunken)
+        self.setSizePolicy(QtWidgets.QSizePolicy.Policy.Minimum, QtWidgets.QSizePolicy.Policy.Preferred)
         return

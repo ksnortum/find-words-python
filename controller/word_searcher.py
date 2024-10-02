@@ -1,7 +1,7 @@
 import logging
 import re
 
-from PyQt5.QtCore import pyqtSignal, QObject, pyqtSlot
+from PyQt6.QtCore import pyqtSignal, QObject, pyqtSlot
 
 from model.custom_dictionary import CustomDictionary
 from model.custom_word import CustomWord

@@ -1,9 +1,9 @@
 import logging
 from typing import List
 
-from PyQt5.QtCore import Qt, QThread
-from PyQt5.QtGui import QFont, QKeySequence, QIcon
-from PyQt5.QtWidgets import (
+from PyQt6.QtCore import Qt, QThread
+from PyQt6.QtGui import QFont, QKeySequence, QIcon
+from PyQt6.QtWidgets import (
     QMainWindow,
     QVBoxLayout,
     QLabel,
@@ -17,8 +17,8 @@ from PyQt5.QtWidgets import (
     QComboBox,
     QProgressBar,
     QMessageBox,
-    QAction,
 )
+from PyQt6.QtGui import QAction
 from operator import attrgetter
 
 from controller.word_searcher import WordSearcher
@@ -97,17 +97,17 @@ class MainWindow(QMainWindow):
         menu = self.menuBar()
         file_menu = menu.addMenu("&File")
         clear_action = QAction("&Clear", self)
-        clear_action.setShortcut(QKeySequence(Qt.CTRL + Qt.Key_L))
+        clear_action.setShortcut(QKeySequence(Qt.Modifier.CTRL | Qt.Key.Key_L))
         clear_action.triggered.connect(self.clear_all)
         file_menu.addAction(clear_action)
         quit_action = QAction("&Quit", self)
-        quit_action.setShortcut(QKeySequence(Qt.CTRL + Qt.Key_Q))
+        quit_action.setShortcut(QKeySequence(Qt.Modifier.CTRL | Qt.Key.Key_Q))
         quit_action.triggered.connect(self.close)
         file_menu.addAction(quit_action)
 
         help_menu = menu.addMenu("&Help")
         help_action = QAction("&Help", self)
-        help_action.setShortcut(QKeySequence(Qt.CTRL + Qt.Key_H))
+        help_action.setShortcut(QKeySequence(Qt.Modifier.CTRL | Qt.Key.Key_H))
         help_action.triggered.connect(lambda: HelpPage())
         help_menu.addAction(help_action)
         about_action = QAction("&About", self)
@@ -227,18 +227,18 @@ class MainWindow(QMainWindow):
 
     def build_buttons(self) -> QHBoxLayout:
         layout = QHBoxLayout()
-        layout.setAlignment(Qt.AlignRight)
+        layout.setAlignment(Qt.AlignmentFlag.AlignRight)
 
         self.submit_button = QPushButton("Submit")
         self.submit_button.clicked.connect(self.search_for_words)
-        self.submit_button.setShortcut(QKeySequence(Qt.Key_Return))
+        self.submit_button.setShortcut(QKeySequence(Qt.Key.Key_Return))
         layout.addWidget(self.submit_button)
         self.clear_all_button = QPushButton("Clear")
         self.clear_all_button.clicked.connect(self.clear_all)
         layout.addWidget(self.clear_all_button)
         self.exit_button = QPushButton("Exit")
         self.exit_button.clicked.connect(self.close)
-        self.exit_button.setShortcut(QKeySequence(Qt.Key_Escape))
+        self.exit_button.setShortcut(QKeySequence(Qt.Key.Key_Escape))
         layout.addWidget(self.exit_button)
 
         return layout
@@ -253,7 +253,7 @@ class MainWindow(QMainWindow):
         self.word_searcher = WordSearcher(data)
         self.thread = QThread()
         self.word_searcher.intReady.connect(self.on_count_changed)
-        self.word_searcher.moveToThread(self.thread)
+        # self.word_searcher.moveToThread(self.thread)
         self.word_searcher.finished.connect(self.thread_finished)
         self.thread.started.connect(self.word_searcher.get_words)
         self.progress_bar.setDisabled(False)

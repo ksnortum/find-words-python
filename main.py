@@ -1,7 +1,7 @@
 import logging
 import sys
 
-from PyQt5.QtWidgets import QApplication
+from PyQt6.QtWidgets import QApplication
 from view.main_window import MainWindow
 from utils.utils import get_string_from_file
 

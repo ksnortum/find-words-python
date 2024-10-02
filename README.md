@@ -19,9 +19,9 @@ things.  See **Bugs, Improvements, Suggestions**.
 You will need [Python](https://www.python.org/downloads/) 3.10 or above to execute the app.  It may run on lower 
 versions, but this is not guaranteed. 
 
-You will also need the [PyQt5](https://riverbankcomputing.com/software/pyqt/intro) framework.  To install:
+You will also need the [PyQt6](https://riverbankcomputing.com/software/pyqt/intro) framework.  To install:
 
-    pip install PyQt5
+    pip install PyQt6
 
 ## Running
 

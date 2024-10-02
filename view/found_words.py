@@ -1,5 +1,5 @@
-from PyQt5.QtCore import Qt
-from PyQt5.QtWidgets import QGridLayout, QVBoxLayout, QDialog, QLabel, QMessageBox, QScrollArea, QFrame
+from PyQt6.QtCore import Qt
+from PyQt6.QtWidgets import QGridLayout, QVBoxLayout, QDialog, QLabel, QMessageBox, QScrollArea, QFrame
 
 from model.custom_word import CustomWord
 from view.button import ok_button
@@ -41,13 +41,13 @@ class FoundWords(QDialog):
             col = 0
             word_label = QLabel(word.get_word())
             word_label.setStyleSheet("background-color: white;")
-            word_label.setAlignment(Qt.AlignCenter)
+            word_label.setAlignment(Qt.AlignmentFlag.AlignCenter)
             grid.addWidget(word_label, row, col)
             col += 1
 
             if self.is_scrabble:
                 value_label = QLabel(str(word.get_value()))
-                value_label.setAlignment(Qt.AlignCenter)
+                value_label.setAlignment(Qt.AlignmentFlag.AlignCenter)
                 value_label.setStyleSheet("background-color: white;")
                 grid.addWidget(value_label, row, col)
                 col += 1
