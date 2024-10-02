@@ -1,17 +1,11 @@
+QMainWindow { 
+    border: 1px solid rgb(214, 214, 214);
+}
+
 QMenuBar {
-    background-color: #f0f0f0;
+    border-top: 1px solid rgb(214, 214, 214);
 }
+
 QMenuBar::item {
-    background-color: #f0f0f0;
-}
-QMenuBar::item:selected {    
-    background-color: #FF007ACC;
-	color: white;
-}
-QMenu {
-	background-color: #f0f0f0;
-}
-QMenu::item:selected {
-    background-color: #FF007ACC;
-    color: white;
+    border-top: 1px solid rgb(214, 214, 214);
 }

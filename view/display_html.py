@@ -18,13 +18,15 @@ class DisplayHtml(QDialog):
     def display(self):
         logging.debug('in display()')
         self.setWindowTitle(self.title)
+        self.setStyleSheet('QDialog { border: 1px solid rgb(214, 214, 214); }')
         main_layout = QVBoxLayout()
         self.setLayout(main_layout)
 
         about_widget = QTextEdit()
         about_widget.setMinimumSize(self.width, self.height)
         about_widget.setReadOnly(True)
-        about_widget.setTextInteractionFlags(Qt.TextInteractionFlag.LinksAccessibleByMouse | Qt.TextInteractionFlag.TextBrowserInteraction)
+        about_widget.setTextInteractionFlags(Qt.TextInteractionFlag.LinksAccessibleByMouse |
+                                             Qt.TextInteractionFlag.TextBrowserInteraction)
         about_widget.setHtml(get_string_from_file(self.file_name))
         main_layout.addWidget(about_widget)
         main_layout.addLayout(ok_button(self))
