@@ -95,7 +95,7 @@ class MainWindow(QMainWindow):
 
     def build_menu(self) -> None:
         menu = self.menuBar()
-        file_menu = menu.addMenu("&File")
+        file_menu = menu.addMenu("&File ")
         clear_action = QAction("&Clear", self)
         clear_action.setShortcut(QKeySequence(Qt.Modifier.CTRL | Qt.Key.Key_L))
         clear_action.triggered.connect(self.clear_all)

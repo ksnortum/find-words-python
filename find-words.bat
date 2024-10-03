@@ -1,1 +1,1 @@
-@powershell -window hidden -command "python3 main.py"
+@powershell -window hidden -command "python main.py"
