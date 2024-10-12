@@ -68,4 +68,5 @@ class FoundWords(QDialog):
         dlg = QMessageBox()
         dlg.setWindowTitle("Notice")
         dlg.setText("No matching words were found")
+        dlg.setStyleSheet('QDialog { border: 1px solid rgb(214, 214, 214); }')
         dlg.exec()
