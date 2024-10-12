@@ -3,6 +3,7 @@ from PyQt6.QtWidgets import QGridLayout, QVBoxLayout, QDialog, QLabel, QMessageB
 
 from model.custom_word import CustomWord
 from view.button import ok_button
+from utils.utils import get_string_from_file
 
 
 class FoundWords(QDialog):
@@ -14,6 +15,7 @@ class FoundWords(QDialog):
         self.words = words
         self.dictionary_definitions = dictionary_definitions
         self.is_scrabble = is_scrabble
+        self.css = get_string_from_file("html/app.css")
 
         if len(words) == 0:
             self.nothing_found()
@@ -24,6 +26,7 @@ class FoundWords(QDialog):
 
     def build_gui(self):
         self.setWindowTitle("Found Words")
+        self.setStyleSheet(self.css)
         main_layout = QVBoxLayout()
         self.setLayout(main_layout)
 
@@ -63,10 +66,9 @@ class FoundWords(QDialog):
         main_layout.addWidget(scroll)
         main_layout.addLayout(ok_button(self))
 
-    @staticmethod
-    def nothing_found() -> None:
+    def nothing_found(self) -> None:
         dlg = QMessageBox()
         dlg.setWindowTitle("Notice")
         dlg.setText("No matching words were found")
-        dlg.setStyleSheet('QDialog { border: 1px solid rgb(214, 214, 214); }')
+        dlg.setStyleSheet(self.css)
         dlg.exec()

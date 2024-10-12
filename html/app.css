@@ -1,3 +1,4 @@
+/*
 QMainWindow { 
     border: 1px solid rgb(214, 214, 214);
 }
@@ -8,4 +9,17 @@ QMenuBar {
 
 QMenuBar::item {
     border-top: 1px solid rgb(214, 214, 214);
+}
+*/
+
+QMainWindow {
+    background-color: #fafafa;
+}
+
+QMenuBar {
+    background-color: #fafafa;
+}
+
+QDialog { 
+    background-color: #fafafa; 
 }

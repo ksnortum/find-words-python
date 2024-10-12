@@ -18,7 +18,8 @@ class DisplayHtml(QDialog):
     def display(self):
         logging.debug('in display()')
         self.setWindowTitle(self.title)
-        self.setStyleSheet('QDialog { border: 1px solid rgb(214, 214, 214); }')
+        css = get_string_from_file("html/app.css")
+        self.setStyleSheet(css)
         main_layout = QVBoxLayout()
         self.setLayout(main_layout)
 
