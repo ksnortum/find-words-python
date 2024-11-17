@@ -277,13 +277,13 @@ class MainWindow(QMainWindow):
         Validate the data input by the user.  Returns None if data does not validate, otherwise it returns the data.
         """
         data = InputDataBuilder(self.available_letters.text()) \
-                .game_type(self.get_type_of_game()) \
-                .contains(self.contains_letters.text()) \
-                .starts_with(self.starts_with.text()) \
-                .ends_with(self.ends_with.text()) \
-                .dictionary_name(self.get_dictionary_name()) \
-                .number_of_letters(self.number_of_letters.text()) \
-                .build()
+            .game_type(self.get_type_of_game()) \
+            .contains(self.contains_letters.text()) \
+            .starts_with(self.starts_with.text()) \
+            .ends_with(self.ends_with.text()) \
+            .dictionary_name(self.get_dictionary_name()) \
+            .number_of_letters(self.number_of_letters.text()) \
+            .build()
         validator = Validator(data)
         errors = validator.validate()
 
