@@ -8,12 +8,12 @@ from view.button import ok_button
 
 
 class DisplayHtml(QDialog):
-    def __init__(self, file_name, title, width, height):
+    def __init__(self, file_name: str, title: str, width: int, height: int):
         super().__init__()
         self.file_name = file_name
         self.title = title
-        self.width = width
-        self.height = height
+        self.dialog_width = width
+        self.dialog_height = height
 
     def display(self):
         logging.debug('in display()')
@@ -24,7 +24,7 @@ class DisplayHtml(QDialog):
         self.setLayout(main_layout)
 
         about_widget = QTextEdit()
-        about_widget.setMinimumSize(self.width, self.height)
+        about_widget.setMinimumSize(self.dialog_width, self.dialog_height)
         about_widget.setReadOnly(True)
         about_widget.setTextInteractionFlags(Qt.TextInteractionFlag.LinksAccessibleByMouse |
                                              Qt.TextInteractionFlag.TextBrowserInteraction)
