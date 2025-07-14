@@ -8,9 +8,9 @@ from model.dictionary_name import DictionaryName
 class TestCustomDictionary(unittest.TestCase):
     def setUp(self) -> None:
         self.test_words = [
-            DictionaryElement("one", None),
-            DictionaryElement("two", None),
-            DictionaryElement("three", None)
+            DictionaryElement("one", ""),
+            DictionaryElement("two", ""),
+            DictionaryElement("three", "")
         ]
         self.test_words_with_definitions = [
             DictionaryElement("one", "the number one"),

@@ -26,7 +26,7 @@ class CustomDictionary:
                 word = parts[0].lower()
 
                 if len(word) > 1:
-                    definition = parts[1] if len(parts) > 1 else None
+                    definition = parts[1] if len(parts) > 1 else ""
                     valid_words.append(DictionaryElement(word, definition))
 
         self.words[self.dictionary_name] = valid_words

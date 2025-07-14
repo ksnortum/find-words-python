@@ -1,6 +1,6 @@
 class DictionaryElement:
     """One element in a dictionary list of words.  Pass in word and possible definition."""
-    def __init__(self, word: str, definition: str = None) -> None:
+    def __init__(self, word: str, definition: str = "") -> None:
         self.word = word
         self.definition = definition
 
@@ -20,7 +20,7 @@ class DictionaryElement:
 
     def __str__(self):
         string = self.word
-        if self.definition is not None:
+        if self.definition != "":
             string += f': "{self.definition}"'
 
         return string
