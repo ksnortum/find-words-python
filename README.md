@@ -11,8 +11,7 @@ rewritten in Java ([scrabble-words-java](https://github.com/ksnortum/scrabble-wo
 Python 3.  My intention is that **scrabble-words-java** and this project should stay in sync (we'll see).
 
 I was never a Python programmer professionally -- I am self-taught, so there may be different (better) ways to do 
-things.  See **Bugs, Improvements, Suggestions**.                                             
-
+things.  See **Bugs, Improvements, Suggestions**.
 
 ## Prerequisites
 
@@ -49,6 +48,7 @@ Suggestions or constructive criticism is welcome.  Shoot me an email at knute (a
 submit a pull requests.
 
 ## Other Find-Words Projects
-* https://github.com/ksnortum/find-words-web
-* https://github.com/ksnortum/find-words-java
-* https://github.com/ksnortum/find-words-python (this site)
+
+* [find-words-web](https://github.com/ksnortum/find-words-web)
+* [find-words-java](https://github.com/ksnortum/find-words-java)
+* [find-words-python (this site)](https://github.com/ksnortum/find-words-python)
