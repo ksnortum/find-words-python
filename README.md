@@ -52,4 +52,3 @@ submit a pull requests.
 * https://github.com/ksnortum/find-words-web
 * https://github.com/ksnortum/find-words-java
 * https://github.com/ksnortum/find-words-python (this site)
-* https://github.com/ksnortum/wordle-kotlin (A Wordle game)
