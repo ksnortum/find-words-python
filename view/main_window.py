@@ -18,7 +18,7 @@ from PyQt6.QtWidgets import (
     QProgressBar,
     QMessageBox,
 )
-from PyQt6.QtGui import QAction
+from PyQt6.QtGui import QAction, QGuiApplication
 from operator import attrgetter
 
 from controller.word_searcher import WordSearcher
@@ -51,7 +51,7 @@ class MainWindow(QMainWindow):
     def __init__(self):
         super().__init__()
         self.word_searcher = None
-        self.thread = None
+        self.worker_thread: QThread | None = None
         self.available_letters_label = None
         self.available_letters = None
         self.contains_letters = None
@@ -85,29 +85,36 @@ class MainWindow(QMainWindow):
         main_layout.addLayout(self.build_radio_buttons())
         main_layout.addLayout(self.build_grid())
         main_layout.addLayout(self.build_buttons())
-        self.available_letters.setFocus()
+        # Set focus after available_letters is initialized in build_grid
+        if self.available_letters is not None:
+            self.available_letters.setFocus()
 
-        # Center app on screen
+        # Center app on screen (doesn't seem to work in Ubuntu 22.04)
         fg = self.frameGeometry()
-        center_point = self.screen().availableGeometry().center()
-        fg.moveCenter(center_point)
-        self.move(fg.topLeft())
+        screen = QGuiApplication.primaryScreen()
+        if screen is not None:
+            center_point = screen.availableGeometry().center()
+            fg.moveCenter(center_point)
+            self.move(fg.topLeft())
 
     def build_menu(self) -> None:
         menu = self.menuBar()
+        assert menu is not None, "Menu bar should not be None"
         file_menu = menu.addMenu("&File ")
+        assert file_menu is not None, "File menu should not be None"
         clear_action = QAction("&Clear", self)
-        clear_action.setShortcut(QKeySequence(Qt.Modifier.CTRL | Qt.Key.Key_L))
+        clear_action.setShortcut(QKeySequence("Ctrl+L"))
         clear_action.triggered.connect(self.clear_all)
         file_menu.addAction(clear_action)
         quit_action = QAction("&Quit", self)
-        quit_action.setShortcut(QKeySequence(Qt.Modifier.CTRL | Qt.Key.Key_Q))
+        quit_action.setShortcut(QKeySequence("Ctrl+Q"))
         quit_action.triggered.connect(self.close)
         file_menu.addAction(quit_action)
 
         help_menu = menu.addMenu("&Help")
+        assert help_menu is not None, "Help menu should not be None"
         help_action = QAction("&Help", self)
-        help_action.setShortcut(QKeySequence(Qt.Modifier.CTRL | Qt.Key.Key_H))
+        help_action.setShortcut(QKeySequence("Ctrl+H"))
         help_action.triggered.connect(lambda: HelpPage())
         help_menu.addAction(help_action)
         about_action = QAction("&About", self)
@@ -251,21 +258,24 @@ class MainWindow(QMainWindow):
             return
 
         self.word_searcher = WordSearcher(data)
-        self.thread = QThread()
+        self.worker_thread = QThread()
         self.word_searcher.intReady.connect(self.on_count_changed)
-        # self.word_searcher.moveToThread(self.thread)
         self.word_searcher.finished.connect(self.thread_finished)
-        self.thread.started.connect(self.word_searcher.get_words)
-        self.progress_bar.setDisabled(False)
-        self.thread.start()
+        self.worker_thread.started.connect(self.word_searcher.get_words)
+        if self.progress_bar is not None:
+            self.progress_bar.setDisabled(False) # TODO
+        self.worker_thread.start()
 
     def on_count_changed(self, value: int) -> None:
-        self.progress_bar.setValue(value)
+        if self.progress_bar is not None:
+            self.progress_bar.setValue(value)
 
     def thread_finished(self, words: List[CustomWord]) -> None:
         """Display list of words after the search in the background is over."""
-        self.thread.quit()
-        self.progress_bar.setValue(100)
+        if self.worker_thread is not None:
+            self.worker_thread.quit()
+        if self.progress_bar is not None:
+            self.progress_bar.setValue(100)
         word_sort = sorted(words, key=attrgetter('word'))
         value_sort = sorted(word_sort, key=attrgetter('value'), reverse=True)
         dictionary_definitions = "DEFINE" in self.get_dictionary_name().name
@@ -276,13 +286,13 @@ class MainWindow(QMainWindow):
         """
         Validate the data input by the user.  Returns None if data does not validate, otherwise it returns the data.
         """
-        data = InputDataBuilder(self.available_letters.text()) \
+        data = InputDataBuilder(self.available_letters.text() if self.available_letters is not None else "") \
             .game_type(self.get_type_of_game()) \
-            .contains(self.contains_letters.text()) \
-            .starts_with(self.starts_with.text()) \
-            .ends_with(self.ends_with.text()) \
+            .contains(self.contains_letters.text() if self.contains_letters is not None else "") \
+            .starts_with(self.starts_with.text() if self.starts_with is not None else "") \
+            .ends_with(self.ends_with.text() if self.ends_with is not None else "") \
             .dictionary_name(self.get_dictionary_name()) \
-            .number_of_letters(self.number_of_letters.text()) \
+            .number_of_letters(self.number_of_letters.text() if self.number_of_letters is not None else "") \
             .build()
         validator = Validator(data)
         errors = validator.validate()
@@ -298,39 +308,51 @@ class MainWindow(QMainWindow):
         return data
 
     def ends_with_clear(self) -> None:
-        self.ends_with.clear()
-        self.ends_with.setFocus()
+        if self.ends_with is not None:
+            self.ends_with.clear()
+            self.ends_with.setFocus()
 
     def starts_with_clear(self) -> None:
-        self.starts_with.clear()
-        self.starts_with.setFocus()
+        if self.starts_with is not None:
+            self.starts_with.clear()
+            self.starts_with.setFocus()
 
     def contains_letters_clear(self) -> None:
-        self.contains_letters.clear()
-        self.contains_letters.setFocus()
+        if self.contains_letters is not None:
+            self.contains_letters.clear()
+            self.contains_letters.setFocus()
 
     def available_letters_clear(self) -> None:
-        self.available_letters.clear()
-        self.available_letters.setFocus()
+        if self.available_letters is not None:
+            self.available_letters.clear()
+            self.available_letters.setFocus()
 
     def number_of_letters_clear(self) -> None:
-        self.number_of_letters.clear()
-        self.number_of_letters.setFocus()
+        if self.number_of_letters is not None:
+            self.number_of_letters.clear()
+            self.number_of_letters.setFocus()
 
     def clear_all(self) -> None:
-        self.available_letters.clear()
-        self.contains_letters.clear()
-        self.starts_with.clear()
-        self.ends_with.clear()
+        if self.available_letters is not None:
+            self.available_letters.clear()
+        if self.contains_letters is not None:
+            self.contains_letters.clear()
+        if self.starts_with is not None:
+            self.starts_with.clear()
+        if self.ends_with is not None:
+            self.ends_with.clear()
 
         if self.get_type_of_game() != TypeOfGame.WORDLE:
-            self.number_of_letters.clear()
+            if self.number_of_letters is not None:
+                self.number_of_letters.clear()
 
-        self.available_letters.setFocus()
+        if self.available_letters is not None:
+            self.available_letters.setFocus()
 
     def get_type_of_game(self) -> TypeOfGame:
         """The type of game is determined and returned by checking which radio button is selected."""
         type_of_game = TypeOfGame.SCRABBLE
+        assert self.radio_group is not None, "Radio group should not be None"
         selected = [button.text() for button in self.radio_group.buttons() if button.isChecked()]
 
         if len(selected) > 0:
@@ -346,6 +368,7 @@ class MainWindow(QMainWindow):
     def get_dictionary_name(self) -> DictionaryName:
         """Return the dictionary name by checking the current text of the dictionary pull-down menu."""
         dictionary_name = DictionaryName.COLLINS
+        assert self.dictionary is not None, "Dictionary combo box should not be None"
 
         for name in DictionaryName:
             if name.name == self.dictionary.currentText():
@@ -356,6 +379,12 @@ class MainWindow(QMainWindow):
 
     def radio_button_changed(self, button: QRadioButton) -> None:
         """Actions to be taken when the radio button changes."""
+        assert self.available_letters is not None, "Available letters field should not be None"
+        assert self.number_of_letters is not None, "Number of letters field should not be None"
+        assert self.available_letters_clear_button is not None, "Available letters clear button should not be None"
+        assert self.number_of_letters_clear_button is not None, "Number of letters clear button should not be None"
+        assert self.available_letters_label is not None, "Available letters label should not be None"
+        
         if button.text().upper() == TypeOfGame.SCRABBLE.name:
             self.number_of_letters.clear()
             self.number_of_letters.setDisabled(True)
